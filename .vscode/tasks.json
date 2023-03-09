@@ -37,5 +37,17 @@
             ],
             "problemMatcher": "$msCompile"
         },
+        {
+            "label": "Trade",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Com.Service/Com.Service.Trade/Com.Service.Trade.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
     ]
 }

@@ -57,5 +57,21 @@
                 //"DOTNET_ENVIRONMENT": "Production"
             }
         },
+        {
+            "name": "Trade",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Trade",
+            "program": "${workspaceFolder}/Com.Service/Com.Service.Trade/bin/Debug/net6.0/Com.Service.Trade.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Com.Service/Com.Service.Trade",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+                // "DOTNET_ENVIRONMENT": "Staging"
+                //"DOTNET_ENVIRONMENT": "Production"
+            }
+        },
     ]
 }
