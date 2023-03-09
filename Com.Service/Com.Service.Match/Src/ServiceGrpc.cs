@@ -1,8 +1,8 @@
-using Com.Models.Db;
+
 using Com.Models.Enum;
-using Com.Service.Match.Models;
-using ComServiceMatchgPRC;
 using Grpc.Core;
+using ServiceMatchGrpc;
+
 namespace Com.Service.Match;
 
 /// <summary>

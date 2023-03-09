@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "google/protobuf/wrappers.proto";
-option csharp_namespace = "ComServiceMatchgPRC";
+option csharp_namespace = "ServiceMatchGrpc";
 // package Exchange;
 service MatchGrpc { 
   

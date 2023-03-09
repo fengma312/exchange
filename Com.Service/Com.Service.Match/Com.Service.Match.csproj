@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Match.proto" />
+    <Protobuf Include="Match.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

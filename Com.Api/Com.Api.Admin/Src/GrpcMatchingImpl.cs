@@ -1,7 +1,6 @@
 using Grpc.Net.Client;
-using ComServiceMatchgPRC;
-using static ComServiceMatchgPRC.MatchGrpc;
 using Grpc.Core;
+using ServiceMatchGrpc;
 
 namespace Com.Api.Admin;
 
