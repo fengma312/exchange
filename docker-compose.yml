@@ -20,10 +20,10 @@ services:
       - comapiadmin
 
   comservicematchmaking:
-    container_name: com.service.matchmaking
-    image: fengma312/com.service.matchmaking:latest
+    container_name: Com.Service.Match
+    image: fengma312/Com.Service.Match:latest
     build:
       context: .
-      dockerfile: Com.Service/Com.Service.Matchmaking/Dockerfile
+      dockerfile: Com.Service/Com.Service.Match/Dockerfile
     depends_on:
       - comapiadmin

@@ -54,7 +54,7 @@ jobs:
         script: |
           docker run -d fengma312/com.api.admin:latest
           docker run -d fengma312/com.api.open:latest
-          docker run -d fengma312/com.service.matchmaking:latest
+          docker run -d fengma312/Com.Service.Match:latest
 
     
     

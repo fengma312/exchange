@@ -4,11 +4,11 @@ version: '3.4'
 services:
 
   comservicematchmaking:
-    image: com.service.matchmaking
-    container_name: com.service.matchmaking
+    image: Com.Service.Match
+    container_name: Com.Service.Match
     build:
       context: .
-      dockerfile: Com.Service/Com.Service.Matchmaking/Dockerfile
+      dockerfile: Com.Service/Com.Service.Match/Dockerfile
     environment:
       - DOTNET_ENVIRONMENT=Development
     volumes:

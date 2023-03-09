@@ -1,6 +1,6 @@
 using Com.Models.Db;
 using Com.Models.Enum;
-using Com.Service.Matchmaking.Models;
+using Com.Service.Match.Models;
 using ComServiceMatchmakinggPRC;
 using Grpc.Core;
 namespace Com.Service.Match;

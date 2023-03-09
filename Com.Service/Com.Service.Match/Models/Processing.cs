@@ -1,6 +1,6 @@
 using System;
 
-namespace Com.Service.Matchmaking.Models;
+namespace Com.Service.Match.Models;
 
 /// <summary>
 /// 处理进程

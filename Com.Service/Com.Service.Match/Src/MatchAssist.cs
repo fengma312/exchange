@@ -34,7 +34,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using Com.Bll.Util;
-using Com.Service.Matchmaking.Models;
+using Com.Service.Match.Models;
 using Com.Models.Enum;
 using Com.Models.Base;
 using Com.Models.Db;

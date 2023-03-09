@@ -2,19 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": ".NET Core Launch (web)",
+            "name": "Api",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Com.Api/Com.Api.Admin/bin/Debug/net7.0/Com.Api.Admin.dll",
+            "preLaunchTask": "Open",
+            "program": "${workspaceFolder}/Com.Api/Com.Api.Open/bin/Debug/net6.0/Com.Api.Open.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Com.Api/Com.Api.Admin",
+            "cwd": "${workspaceFolder}/Com.Api/Com.Api.Open",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
@@ -27,9 +22,40 @@
             }
         },
         {
-            "name": ".NET Core Attach",
+            "name": "Admin",
             "type": "coreclr",
-            "request": "attach"
-        }
+            "request": "launch",
+            "preLaunchTask": "Admin",
+            "program": "${workspaceFolder}/Com.Api/Com.Api.Admin/bin/Debug/net6.0/Com.Api.Admin.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Com.Api/Com.Api.Admin",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Matchmaking",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Matchmaking",
+            "program": "${workspaceFolder}/Com.Service/Com.Service.Match/bin/Debug/net6.0/Com.Service.Match.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Com.Service/Com.Service.Match",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+                // "DOTNET_ENVIRONMENT": "Staging"
+                //"DOTNET_ENVIRONMENT": "Production"
+            }
+        },
     ]
 }

@@ -34,7 +34,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Com.Models.Db;
 using Com.Models.Enum;
-using Com.Service.Matchmaking.Models;
+using Com.Service.Match.Models;
 
 namespace Com.Service.Match;
 

@@ -8,16 +8,16 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Com.Service/Com.Service.Matchmaking/Com.Service.Matchmaking.csproj", "Com.Service/Com.Service.Matchmaking/"]
-RUN dotnet restore "Com.Service/Com.Service.Matchmaking/Com.Service.Matchmaking.csproj"
+COPY ["Com.Service/Com.Service.Match/Com.Service.Match.csproj", "Com.Service/Com.Service.Match/"]
+RUN dotnet restore "Com.Service/Com.Service.Match/Com.Service.Match.csproj"
 COPY . .
-WORKDIR "/src/Com.Service/Com.Service.Matchmaking"
-RUN dotnet build "Com.Service.Matchmaking.csproj" -c Release -o /app/build
+WORKDIR "/src/Com.Service/Com.Service.Match"
+RUN dotnet build "Com.Service.Match.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Com.Service.Matchmaking.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Com.Service.Match.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Com.Service.Matchmaking.dll"]
+ENTRYPOINT ["dotnet", "Com.Service.Match.dll"]

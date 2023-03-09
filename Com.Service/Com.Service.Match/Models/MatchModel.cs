@@ -9,7 +9,7 @@ using Com.Bll.Util;
 using Com.Models.Db;
 using Com.Service.Match;
 
-namespace Com.Service.Matchmaking.Models;
+namespace Com.Service.Match.Models;
 
 /// <summary>
 /// 撮合服务

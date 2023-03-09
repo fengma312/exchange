@@ -12,7 +12,7 @@ using Com.Bll.Models;
 using Com.Models.Enum;
 using Grpc.Net.Client;
 using ComServiceMatchmakinggPRC;
-using Com.Service.Matchmaking.Models;
+using Com.Service.Match.Models;
 using System.Diagnostics;
 using System.Collections.Concurrent;
 
