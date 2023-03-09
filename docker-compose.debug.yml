@@ -3,7 +3,7 @@
 version: '3.4'
 services:
 
-  comservicematchmaking:
+  comserviceMatch:
     image: Com.Service.Match
     container_name: Com.Service.Match
     build:

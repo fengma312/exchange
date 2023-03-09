@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Matchmaking.proto" />
+    <Protobuf Include="Match.proto" />
   </ItemGroup>
 
 </Project>

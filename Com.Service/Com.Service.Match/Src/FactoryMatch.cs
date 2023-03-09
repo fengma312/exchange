@@ -11,7 +11,7 @@ using Com.Bll.Models;
 // using GrpcExchange;
 using Com.Models.Enum;
 using Grpc.Net.Client;
-using ComServiceMatchmakinggPRC;
+using ComServiceMatchgPRC;
 using Com.Service.Match.Models;
 using System.Diagnostics;
 using System.Collections.Concurrent;
@@ -82,7 +82,7 @@ public class FactoryMatch
         this.service_depth = new MatchDepth(this.service_list);
         Grpc.Core.Server server = new Grpc.Core.Server
         {
-            Services = { MatchmakingGrpc.BindService(new ServiceGrpc()) },
+            Services = { MatchGrpc.BindService(new ServiceGrpc()) },
             Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("manage_port"), ServerCredentials.Insecure) }
         };
         server.Start();

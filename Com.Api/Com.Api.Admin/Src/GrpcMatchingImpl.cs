@@ -1,6 +1,6 @@
 using Grpc.Net.Client;
-using ComServiceMatchmakinggPRC;
-using static ComServiceMatchmakinggPRC.MatchmakingGrpc;
+using ComServiceMatchgPRC;
+using static ComServiceMatchgPRC.MatchGrpc;
 using Grpc.Core;
 
 namespace Com.Api.Admin;
@@ -31,7 +31,7 @@ public class GrpcMatchingImpl
     public async Task<ActivityRes> Activity()
     {
         GrpcChannel channel = GrpcChannel.ForAddress(this.url);
-        var client = new MatchmakingGrpc.MatchmakingGrpcClient(channel);
+        var client = new MatchGrpc.MatchGrpcClient(channel);
         ActivityReq req = new ActivityReq();
         ActivityRes res = await client.ActivityAsync(req);
         await channel.ShutdownAsync();
@@ -45,7 +45,7 @@ public class GrpcMatchingImpl
     public async Task<SearchSymbolRes> SearchSymbol()
     {
         GrpcChannel channel = GrpcChannel.ForAddress(this.url);
-        var client = new MatchmakingGrpc.MatchmakingGrpcClient(channel);
+        var client = new MatchGrpc.MatchGrpcClient(channel);
         SearchSymbolReq req = new SearchSymbolReq();
         SearchSymbolRes res = await client.SearchSymbolAsync(req);
         foreach (var item in res.SymbolLists)
@@ -63,7 +63,7 @@ public class GrpcMatchingImpl
     public async Task<InitMatchRes> InitMatch()
     {
         GrpcChannel channel = GrpcChannel.ForAddress(this.url);
-        var client = new MatchmakingGrpc.MatchmakingGrpcClient(channel);
+        var client = new MatchGrpc.MatchGrpcClient(channel);
         InitMatchReq req = new InitMatchReq();
         InitMatchRes res = await client.InitMatchAsync(req);
 
@@ -78,7 +78,7 @@ public class GrpcMatchingImpl
     public async Task<ManageSymbolRes> ManageSymbol()
     {
         GrpcChannel channel = GrpcChannel.ForAddress(this.url);
-        var client = new MatchmakingGrpc.MatchmakingGrpcClient(channel);
+        var client = new MatchGrpc.MatchGrpcClient(channel);
         ManageSymbolReq req = new ManageSymbolReq();
         ManageSymbolRes res = await client.ManageSymbolAsync(req);
 
@@ -93,7 +93,7 @@ public class GrpcMatchingImpl
     public async Task<ConfigSymbolRes> ConfigSymbol()
     {
         GrpcChannel channel = GrpcChannel.ForAddress(this.url);
-        var client = new MatchmakingGrpc.MatchmakingGrpcClient(channel);
+        var client = new MatchGrpc.MatchGrpcClient(channel);
         ConfigSymbolReq req = new ConfigSymbolReq();
         ConfigSymbolRes res = await client.ConfigSymbolAsync(req);
 
@@ -108,7 +108,7 @@ public class GrpcMatchingImpl
     public async Task TransactionRecord()
     {
         GrpcChannel channel = GrpcChannel.ForAddress(this.url);
-        var client = new MatchmakingGrpc.MatchmakingGrpcClient(channel);
+        var client = new MatchGrpc.MatchGrpcClient(channel);
         TransactionRecordReq req = new TransactionRecordReq();
         req.SymbolId = 333;
         var res = client.TransactionRecord(req);

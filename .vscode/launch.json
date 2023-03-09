@@ -42,10 +42,10 @@
             }
         },
         {
-            "name": "Matchmaking",
+            "name": "Match",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Matchmaking",
+            "preLaunchTask": "Match",
             "program": "${workspaceFolder}/Com.Service/Com.Service.Match/bin/Debug/net6.0/Com.Service.Match.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Com.Service/Com.Service.Match",

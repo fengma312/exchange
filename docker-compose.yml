@@ -19,7 +19,7 @@ services:
     depends_on:
       - comapiadmin
 
-  comservicematchmaking:
+  comserviceMatch:
     container_name: Com.Service.Match
     image: fengma312/Com.Service.Match:latest
     build:

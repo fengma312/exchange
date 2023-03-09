@@ -1,8 +1,8 @@
 syntax = "proto3";
 import "google/protobuf/wrappers.proto";
-option csharp_namespace = "ComServiceMatchmakinggPRC";
+option csharp_namespace = "ComServiceMatchgPRC";
 // package Exchange;
-service MatchmakingGrpc { 
+service MatchGrpc { 
   
   // rpc UnaryCall (Request) returns (Response);
   // rpc StreamingFromServer (Request) returns (stream Response);

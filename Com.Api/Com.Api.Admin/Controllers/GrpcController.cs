@@ -1,7 +1,7 @@
 using Com.Bll.Models;
 using Com.Models.Db;
 using Com.Models.Enum;
-using ComServiceMatchmakinggPRC;
+using ComServiceMatchgPRC;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
