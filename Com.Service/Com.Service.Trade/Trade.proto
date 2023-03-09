@@ -1,0 +1,94 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+option csharp_namespace = "ServiceTradeGrpc";
+
+service TradeGrpc { 
+  
+  // rpc UnaryCall (Request) returns (Response);
+  // rpc StreamingFromServer (Request) returns (stream Response);
+  // rpc StreamingFromClient (stream Request) returns (Response);
+  // rpc StreamingBothWays (stream Request) returns (stream Response);
+
+  // 1:一元调用:判断程序/网络是否启动
+  rpc Activity (ActivityReq) returns (ActivityRes);
+  // 2:一元调用:查询所分配的交易对
+  rpc SearchSymbol (SearchSymbolReq) returns (SearchSymbolRes);
+  // 3:一元调用:分配撮合交易对
+  rpc InitMatch (InitMatchReq) returns (InitMatchRes);
+  // 4:一元调用:管理撮合交易对(开启,停止)
+  rpc ManageSymbol(ManageSymbolReq) returns(ManageSymbolRes);
+  // 5:一元调用:交易对配置更改
+  rpc ConfigSymbol(ConfigSymbolReq) returns(ConfigSymbolRes);
+  // 6:服务器流:成交记录
+  rpc TransactionRecord(TransactionRecordReq) returns(stream TransactionRecordRes);
+
+  // 6:服务器流:提醒日志
+  rpc MakeMatchLog (MakeMatchLogReq) returns (stream MakeMatchLogRes);
+}
+
+enum ServerType {
+  MAKE_MATCH = 0;  
+}
+message ActivityReq {
+  
+};
+message ActivityRes {
+  int32 process_id=1;
+  string ip = 2;
+  ServerType type=3;
+};
+
+enum MarketType {
+  spot = 0;  
+}
+message SymbolList{
+  string symbol =1;
+  int64 symbol_id=2;
+  MarketType market_type=3;
+  bool run=4;
+}
+message SearchSymbolReq{
+
+};
+message SearchSymbolRes{
+  repeated SymbolList symbol_lists=1;  
+}
+
+message InitMatchReq{
+  int64 symbol_id=1;
+}
+message InitMatchRes{
+  bool success=1;
+  string msg=2;
+}
+
+message ManageSymbolReq{
+  int64 symbol_id=1;
+  bool status=2;
+}
+message ManageSymbolRes{
+  bool success=1;
+  string msg=2;
+}
+
+message ConfigSymbolReq{
+  int64 symbol_id=1;
+}
+message ConfigSymbolRes{
+  bool success=1;
+}
+
+message TransactionRecordReq{
+  int64 symbol_id=1;
+}
+message TransactionRecordRes{
+  int64 record=1;
+}
+
+message MakeMatchLogReq{
+  int64 symbol_id=1;
+}
+message MakeMatchLogRes{
+  string log=1;
+}
+
