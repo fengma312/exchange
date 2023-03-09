@@ -8,7 +8,7 @@ namespace Com.Service.Match;
 /// <summary>
 /// Grpc服务端
 /// </summary>
-public class ServiceGrpc : MatchGrpc.MatchGrpcBase
+public class ServiceMatchGrpc : MatchGrpc.MatchGrpcBase
 {
     /// <summary>
     /// 1:一元调用:判断程序/网络是否启动
