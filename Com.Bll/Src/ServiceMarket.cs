@@ -161,5 +161,18 @@ public class ServiceMarket
         }
     }
 
+    /// <summary>
+    /// 获取交易对基本信息
+    /// </summary>
+    /// <param name="market_id"></param>
+    /// <returns></returns>
+    public List<Market> GetMarketById(List<long> market_id)
+    {
+        using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
+        {
+            return db.Market.Where(P => market_id.Contains(P.market_id)).ToList();
+        }
+    }
+
 
 }

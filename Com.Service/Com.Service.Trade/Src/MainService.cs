@@ -46,12 +46,12 @@ public class MainService : BackgroundService
         try
         {
             ServiceFactory.instance.Init(this.service_base);
-            // ServiceFactory.instance.InitDb();
-            // ServiceFactory.instance.InitRedis();
+
+            ServiceFactory.instance.InitRedis();
             ServiceFactory.instance.InitSnowflake(E_ServiceType.trade);
-            // ServiceFactory.instance.InitMq();
+            ServiceFactory.instance.InitMq();
             // ServiceFactory.instance.InitEs();
-            // FactoryMatch.instance.Init(this.service_base);
+            FactoryTrade.instance.Init(this.service_base);
             this.service_base.logger.LogInformation("启动业务后台服务成功");
         }
         catch (Exception ex)

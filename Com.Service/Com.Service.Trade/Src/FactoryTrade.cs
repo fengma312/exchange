@@ -16,7 +16,7 @@ using Grpc.Net.Client;
 using System.Diagnostics;
 using System.Collections.Concurrent;
 using ServiceTradeGrpc;
-
+using Com.Service.Trade.Models;
 
 namespace Com.Service.Trade;
 
@@ -31,39 +31,30 @@ public class FactoryTrade
     /// <returns></returns>
     public static readonly FactoryTrade instance = new FactoryTrade();
     /// <summary>
+    /// 基础服务
+    /// </summary>
+    public ServiceBase service_base = null!;
+    /// <summary>
     /// 服务列表
     /// </summary>
     public ServiceList service_list = null!;
-    /// <summary>
-    /// 服务:行情处理
-    /// </summary>
-    // public MatchDepth service_depth = null!;
     /// <summary>
     /// 互斥锁
     /// </summary>
     /// <returns></returns>
     private Mutex mutex = new Mutex(false);
     /// <summary>
-    /// 撮合服务集合
+    /// 交易服务集合
     /// </summary>
-    /// <typeparam name="string">交易对</typeparam>
-    /// <typeparam name="Core">撮合对象</typeparam>
+    /// <typeparam name="long">交易对id</typeparam>
+    /// <typeparam name="TradeModel">交易对象</typeparam>
     /// <returns></returns>
-    // public ConcurrentDictionary<long, MatchModel> service = new ConcurrentDictionary<long, MatchModel>();
+    public ConcurrentDictionary<long, TradeModel> service = new ConcurrentDictionary<long, TradeModel>();
     /// <summary>
     /// 秒表
     /// </summary>
     /// <returns></returns>
     public Stopwatch stopwatch = new Stopwatch();
-    /// <summary>
-    /// 公共类
-    /// </summary>
-    public Common common = null!;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public System.Threading.Channels.Channel<TransactionRecordRes>? Channel_TransactionRecord = null;
 
     /// <summary>
     /// 私有构造方法
@@ -79,16 +70,57 @@ public class FactoryTrade
     /// <param name="service_base"></param>
     public void Init(ServiceBase service_base)
     {
+        this.service_base = service_base;
         this.service_list = new ServiceList(service_base);
-        this.common = new Common(service_base);
-        // this.service_depth = new TradeDepth(this.service_list);
+        this.LoadConfig();
+        foreach (var item in service.Values)
+        {
+            // if (item.info.run)
+            {
+                item.StartTrade(item.info.market_id);
+            }
+        }
+        this.StartGrpcService();
+    }
+
+    /// <summary>
+    /// 加载交易对配置
+    /// </summary>
+    private void LoadConfig()
+    {
+        List<long>? market_id = this.service_base.configuration.GetSection("MarketId").Get<List<long>>();
+        if (market_id == null || market_id.Count == 0)
+        {
+            this.service_base.logger.LogWarning($"交易服务没有配置任何交易对");
+            return;
+        }
+        List<Market> markets = this.service_list.service_market.GetMarketById(market_id);
+        foreach (var item in markets)
+        {
+            TradeModel model = new TradeModel(item)
+            {
+
+            };
+            this.service.TryAdd(item.market_id, model);
+        }
+    }
+
+    /// <summary>
+    /// 启动Grpc服务端
+    /// </summary>
+    private void StartGrpcService()
+    {
         Grpc.Core.Server server = new Grpc.Core.Server
         {
             Services = { TradeGrpc.BindService(new ServiceTradeGrpc()) },
-            Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("manage_port"), ServerCredentials.Insecure) }
+            Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("ManagePort"), ServerCredentials.Insecure) }
         };
         server.Start();
     }
+
+
+
+
 
     /// <summary>
     /// 分配撮合对
