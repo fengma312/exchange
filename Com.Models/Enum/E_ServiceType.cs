@@ -10,12 +10,16 @@ public enum E_ServiceType
     /// </summary>
     match = 1,
     /// <summary>
+    /// 交易服务
+    /// </summary>
+    trade = 2,
+    /// <summary>
     /// 管理员api服务
     /// </summary>
-    admin = 2,
+    admin = 3,
     /// <summary>
     /// 公开api服务
     /// </summary>
-    openapi = 3
+    openapi = 4
 
 }

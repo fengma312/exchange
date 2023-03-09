@@ -17,7 +17,10 @@ namespace Com.Service.Trade;
 /// 网站后台服务
 /// </summary>
 public class MainService : BackgroundService
-{  
+{
+    /// <summary>
+    /// 基础服务
+    /// </summary>
     public readonly ServiceBase service_base;
 
     /// <summary>
@@ -28,7 +31,7 @@ public class MainService : BackgroundService
     /// <param name="environment">环境接口</param>
     /// <param name="logger">日志接口</param>
     public MainService(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
-    {        
+    {
         this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
     }
 
@@ -45,7 +48,7 @@ public class MainService : BackgroundService
             ServiceFactory.instance.Init(this.service_base);
             // ServiceFactory.instance.InitDb();
             // ServiceFactory.instance.InitRedis();
-            // ServiceFactory.instance.InitSnowflake(E_ServiceType.collector);
+            ServiceFactory.instance.InitSnowflake(E_ServiceType.trade);
             // ServiceFactory.instance.InitMq();
             // ServiceFactory.instance.InitEs();
             // FactoryMatch.instance.Init(this.service_base);
