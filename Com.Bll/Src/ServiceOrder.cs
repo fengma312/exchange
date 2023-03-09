@@ -91,6 +91,8 @@ public class ServiceOrder
             res.msg = "client_id长度不能超过50";
             return res;
         }
+
+        
         if (orders.Any(P => P.type == E_OrderType.limit && (P.price == null || P.price <= 0)))
         {
             res.code = E_Res_Code.limit_price_error;
