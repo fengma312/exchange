@@ -75,7 +75,7 @@ public class FactoryTrade
         this.LoadConfig();
         foreach (var item in service.Values)
         {
-            // if (item.info.run)
+            if (item.info.status)
             {
                 item.StartTrade(item.info.market_id);
             }
@@ -99,7 +99,7 @@ public class FactoryTrade
         {
             TradeModel model = new TradeModel(item)
             {
-
+                
             };
             this.service.TryAdd(item.market_id, model);
         }
