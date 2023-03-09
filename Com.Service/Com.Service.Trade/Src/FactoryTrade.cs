@@ -95,11 +95,16 @@ public class FactoryTrade
             return;
         }
         List<Market> markets = this.service_list.service_market.GetMarketById(market_id);
+        if (markets == null || markets.Count == 0)
+        {
+            this.service_base.logger.LogWarning($"交易服务没有配置任何交易对");
+            return;
+        }
         foreach (var item in markets)
         {
             TradeModel model = new TradeModel(item)
             {
-                
+
             };
             this.service.TryAdd(item.market_id, model);
         }
