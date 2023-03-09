@@ -1,0 +1,29 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+services:
+
+  comapiadmin:
+    container_name: com.api.admin
+    image: fengma312/com.api.admin:latest
+    build:
+      context: .
+      dockerfile: Com.Api/Com.Api.Admin/Dockerfile
+
+  comapiopen:
+    container_name: com.api.open
+    image: fengma312/com.api.open:latest
+    build:
+      context: .
+      dockerfile: Com.Api/Com.Api.Open/Dockerfile
+    depends_on:
+      - comapiadmin
+
+  comservicematchmaking:
+    container_name: com.service.matchmaking
+    image: fengma312/com.service.matchmaking:latest
+    build:
+      context: .
+      dockerfile: Com.Service/Com.Service.Matchmaking/Dockerfile
+    depends_on:
+      - comapiadmin

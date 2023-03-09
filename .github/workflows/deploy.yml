@@ -1,0 +1,64 @@
+name: .NET
+
+on:
+  push:
+    branches: [ release ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    # - name: Restore dependencies
+    #   run: dotnet restore
+    # - name: Build
+    #   run: dotnet build --no-restore
+    # - name: Test
+    #   run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish -c Release
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with: 
+        # registry: 43.138.142.228:5000
+        # username: mf 
+        # password: Abcd1234     
+        username: fengma312
+        password: ${{secrets.DOCKER_PASSWORD}}
+    # - name: Build and push Docker images a
+    #   uses: docker/build-push-action@v4.0.0
+    #   with:
+    #     push: true
+    #     # tags: fengma312/com.service.asset:latest
+    #     # file: Com.Service/Com.Service.Asset/Dockerfile
+    #     tags: fengma312/Com.Api.Open:latest
+    #     file: 
+    - uses: isbang/compose-action@v1.4.1
+      with:
+        compose-file: "docker-compose.yml"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.7
+      with: 
+        host: 43.138.142.228
+        username: root
+        password: ${{secrets.SERVER_PASSWORD}}
+        script: |
+          docker run -d fengma312/com.api.admin:latest
+          docker run -d fengma312/com.api.open:latest
+          docker run -d fengma312/com.service.matchmaking:latest
+
+    
+    
+
+    
+
+
