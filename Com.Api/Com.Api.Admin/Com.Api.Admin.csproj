@@ -13,10 +13,20 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.3" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.22.1" />
+    <PackageReference Include="Grpc" Version="2.46.6" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.51.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.51.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.51.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Com.Bll\Com.Bll.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Protobuf Include="..\..\Com.Service\Com.Service.Match\Matchmaking.proto" />
+  </ItemGroup>
 </Project>
