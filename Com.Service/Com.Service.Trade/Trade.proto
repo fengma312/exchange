@@ -9,6 +9,8 @@ service TradeGrpc {
   rpc MarketManage(MarketManageReq) returns(MarketManageRes);
   // 3:一元调用:交易对配置更改
   rpc MarketConfig(MarketConfigReq) returns(MarketConfigRes);
+  // 4:接收新订单
+  rpc OrderReceive (stream OrderReceiveReq) returns (OrderReceiveRes);
 }
 
 message KeyValueGrpc{
@@ -36,4 +38,12 @@ message MarketConfigReq{
 }
 message MarketConfigRes{
   repeated KeyValueGrpc market=1; 
+}
+
+message OrderReceiveReq{
+
+}
+
+message OrderReceiveRes{
+
 }

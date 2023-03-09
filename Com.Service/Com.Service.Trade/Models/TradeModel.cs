@@ -69,7 +69,7 @@ public class TradeModel
     /// 启动交易对
     /// </summary>
     /// <param name="market_id"></param>
-    public void StartTrade(long market_id)
+    public void StartTrade()
     {
 
     }
@@ -78,7 +78,15 @@ public class TradeModel
     /// 停止交易对
     /// </summary>
     /// <param name="market_id"></param>
-    public void StopTrade(long market_id)
+    public void StopTrade()
+    {
+
+    }
+
+    /// <summary>
+    /// 重新加载配置
+    /// </summary>
+    public void ReloadConfig()
     {
 
     }

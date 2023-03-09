@@ -67,7 +67,7 @@ public class FactoryTrade
         {
             if (item.info.status)
             {
-                item.StartTrade(item.info.market_id);
+                item.StartTrade();
             }
         }
         this.StartGrpcService();

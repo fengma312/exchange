@@ -1,5 +1,6 @@
 
 using Com.Models.Enum;
+using Com.Service.Trade.Models;
 using Grpc.Core;
 using ServiceTradeGrpc;
 
@@ -16,14 +17,67 @@ public class ServiceTradeGrpc : TradeGrpc.TradeGrpcBase
     /// <param name="request"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    // public override async Task<ActivityRes> Activity(ActivityReq request, ServerCallContext context)
-    // {
-    //     ActivityRes res = new ActivityRes();
-    //     res.Ip = FactoryTrade.instance.common.GetLocalIp();
-    //     res.ProcessId = Environment.ProcessId;
-    //     res.Type = ServerType.MakeMatch;
-    //     return await Task.FromResult<ActivityRes>(res);
-    // }
+    public override async Task<ActivityRes> Activity(ActivityReq request, ServerCallContext context)
+    {
+        ActivityRes res = new ActivityRes();
+        return await Task.FromResult<ActivityRes>(res);
+    }
+
+    /// <summary>
+    /// 2:一元调用:管理撮合交易对(开启,停止)
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public override async Task<MarketManageRes> MarketManage(MarketManageReq request, ServerCallContext context)
+    {
+        MarketManageRes res = new MarketManageRes();
+        foreach (var item in request.Market)
+        {
+            if (FactoryTrade.instance.service.TryGetValue(item.Key, out TradeModel? model))
+            {
+                if (item.Value == true && model.run == false)
+                {
+                    model.StartTrade();
+                }
+                if (item.Value == false && model.run == true)
+                {
+                    model.StopTrade();
+                }
+                res.Market.Add(new KeyValueGrpc()
+                {
+                    Key = item.Key,
+                    Value = true
+                });
+            }
+        }
+        return await Task.FromResult(res);
+    }
+
+
+    /// <summary>
+    /// 5:一元调用:交易对配置更改
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public override async Task<MarketConfigRes> MarketConfig(MarketConfigReq request, ServerCallContext context)
+    {
+        MarketConfigRes res = new MarketConfigRes();
+        foreach (var item in request.Market)
+        {
+            if (FactoryTrade.instance.service.TryGetValue(item.Key, out TradeModel? model))
+            {
+                model.ReloadConfig();
+                res.Market.Add(new KeyValueGrpc()
+                {
+                    Key = item.Key,
+                    Value = true
+                });
+            }
+        }
+        return await Task.FromResult(res);
+    }
 
     /// <summary>
     /// 2:一元调用:查询所分配的交易对
