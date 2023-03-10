@@ -1,10 +1,11 @@
 syntax = "proto3";
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
 option csharp_namespace = "ServiceTradeGrpc";
 
 service TradeGrpc {  
   // 1:一元调用:判断程序/网络是否启动
-  rpc Activity (ActivityReq) returns (ActivityRes);
+  rpc Activity (google.protobuf.Empty) returns (google.protobuf.Empty);
   // 2:一元调用:管理撮合交易对(开启,停止)
   rpc MarketManage(MarketManageReq) returns(MarketManageRes);
   // 3:一元调用:交易对配置更改
@@ -18,13 +19,6 @@ message KeyValueGrpc{
   bool value=2;
   string msg=3;
 }
-
-message ActivityReq {
-  
-};
-message ActivityRes {
-
-};
 
 message MarketManageReq{
   repeated KeyValueGrpc market=1; 

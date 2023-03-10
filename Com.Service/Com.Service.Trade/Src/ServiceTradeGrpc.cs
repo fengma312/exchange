@@ -17,10 +17,9 @@ public class ServiceTradeGrpc : TradeGrpc.TradeGrpcBase
     /// <param name="request"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override async Task<ActivityRes> Activity(ActivityReq request, ServerCallContext context)
+    public override async Task<Google.Protobuf.WellKnownTypes.Empty> Activity(Google.Protobuf.WellKnownTypes.Empty request, ServerCallContext context)
     {
-        ActivityRes res = new ActivityRes();
-        return await Task.FromResult<ActivityRes>(res);
+        return await Task.FromResult(request);
     }
 
     /// <summary>
