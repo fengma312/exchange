@@ -29,6 +29,14 @@ public class ServiceCluster
     {
         this.service_base = service_base;
         this.service_key = new ServiceKey(service_base);
+    }
+
+
+    /// <summary>
+    /// 保存到redis
+    /// </summary>
+    public void SaveRedis()
+    {
         using DbContextEF db = this.service_base.db_factory.CreateDbContext();
         foreach (var item in db.Cluster.ToList())
         {

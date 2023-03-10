@@ -41,6 +41,7 @@ public class ServiceGrpcClient
     /// <param name="type"></param>
     public void Init(E_ServiceType type)
     {
+        this.service_cluster.SaveRedis();
         List<Cluster> lists = this.service_cluster.GetAllCluster();
         foreach (var item in lists)
         {
