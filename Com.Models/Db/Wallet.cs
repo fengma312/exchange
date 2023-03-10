@@ -73,6 +73,6 @@ public class Wallet
     /// 行版本
     /// </summary>
     /// <value></value>
-    [JsonIgnore]
-    public uint version { get; set; }
+    // [JsonIgnore]
+    public uint Version { get; set; }
 }
