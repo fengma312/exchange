@@ -22,8 +22,8 @@
     <ProjectReference Include="..\..\Com.Bll\Com.Bll.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Protobuf Include="Match.proto" GrpcServices="Server"/>
-  </ItemGroup>
+  </ItemGroup> -->
 
 </Project>

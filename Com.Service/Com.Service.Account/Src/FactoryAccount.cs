@@ -92,7 +92,7 @@ public class FactoryAccount
         {
             if (this.service.TryGetValue(item, out var value))
             {
-                users.Add(value.info);
+                users.Add(value.users);
             }
         }
         return users;
