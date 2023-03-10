@@ -4,6 +4,7 @@ using Com.Models.Enum;
 using ServiceMatchGrpc;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Com.Bll;
 
 namespace Com.Api.Admin.Controllers;
 
@@ -45,10 +46,12 @@ public class GrpcController : ControllerBase
     /// <param name="url"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ActivityRes> Activity(string url)
+    public async Task Activity(string url)
     {
-        GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
-        return await impl.Activity();
+        if (ServiceFactory.instance.service_grpc_client.grcp_client_match.TryGetValue(url, out var client))
+        {
+            await client.Activity();
+        }
     }
 
     /// <summary>
@@ -59,8 +62,14 @@ public class GrpcController : ControllerBase
     [HttpGet]
     public async Task<SearchSymbolRes> SearchSymbol(string url)
     {
-        GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
-        return await impl.SearchSymbol();
+        // GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
+        // return await impl.SearchSymbol();
+
+        if (ServiceFactory.instance.service_grpc_client.grcp_client_match.TryGetValue(url, out var client))
+        {
+            return await client.SearchSymbol();
+        }
+        return null;
     }
 
     /// <summary>
@@ -71,23 +80,23 @@ public class GrpcController : ControllerBase
     public async Task<List<InitMatchRes>> InitMatch()
     {
         List<InitMatchRes> response = new List<InitMatchRes>();
-        using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
-        {
-            foreach (var item in await db.Market.ToListAsync())
-            {
-                E_ServiceType type = item.market_type switch
-                {
-                    E_MarketType.spot => E_ServiceType.match,
-                    _ => E_ServiceType.match
-                };
-                string? url = this.service_list.service_cluster.GetClusterUrl(type, item.market_id);
-                if (url != null)
-                {
-                    GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
-                    response.Add(await impl.InitMatch());
-                }
-            }
-        }
+        // using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
+        // {
+        //     foreach (var item in await db.Market.ToListAsync())
+        //     {
+        //         E_ServiceType type = item.market_type switch
+        //         {
+        //             E_MarketType.spot => E_ServiceType.match,
+        //             _ => E_ServiceType.match
+        //         };
+        //         string? url = this.service_list.service_cluster.GetClusterUrl(type, item.market_id);
+        //         if (url != null)
+        //         {
+        //             GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
+        //             response.Add(await impl.InitMatch());
+        //         }
+        //     }
+        // }
         return response;
     }
 
@@ -99,16 +108,17 @@ public class GrpcController : ControllerBase
     [HttpGet]
     public async Task<ManageSymbolRes> ManageSymbol(long market_id)
     {
-        string? url = this.service_list.service_cluster.GetClusterUrl(E_ServiceType.match, market_id);
-        if (url == null)
-        {
-            return new ManageSymbolRes()
-            {
-                Success = false,
-            };
-        }
-        GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
-        return await impl.ManageSymbol();
+        // string? url = this.service_list.service_cluster.GetClusterUrl(E_ServiceType.match, market_id);
+        // if (url == null)
+        // {
+        //     return new ManageSymbolRes()
+        //     {
+        //         Success = false,
+        //     };
+        // }
+        // GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
+        // return await impl.ManageSymbol();
+        return null;
     }
 
     /// <summary>
@@ -119,16 +129,17 @@ public class GrpcController : ControllerBase
     [HttpGet]
     public async Task<ConfigSymbolRes> ConfigSymbol(long market_id)
     {
-        string? url = this.service_list.service_cluster.GetClusterUrl(E_ServiceType.match, market_id);
-        if (url == null)
-        {
-            return new ConfigSymbolRes()
-            {
-                Success = false,
-            };
-        }
-        GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
-        return await impl.ConfigSymbol();
+        // string? url = this.service_list.service_cluster.GetClusterUrl(E_ServiceType.match, market_id);
+        // if (url == null)
+        // {
+        //     return new ConfigSymbolRes()
+        //     {
+        //         Success = false,
+        //     };
+        // }
+        // GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
+        // return await impl.ConfigSymbol();
+        return null;
     }
 
     /// <summary>
@@ -140,8 +151,9 @@ public class GrpcController : ControllerBase
     [HttpGet]
     public async Task TransactionRecord()
     {
-        GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
-        await impl.TransactionRecord();
+        // GrpcMatchingImpl impl = new GrpcMatchingImpl(url);
+        // await impl.TransactionRecord();
+        return;
     }
 
 

@@ -17,7 +17,7 @@ public class ServiceGrpcClient
     /// </summary>
     public readonly ServiceBase service_base;
     /// <summary>
-    /// 
+    /// Service:服务列表
     /// </summary>
     public readonly ServiceCluster service_cluster;
 
