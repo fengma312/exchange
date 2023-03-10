@@ -49,16 +49,17 @@ public class ServiceGrpcClient
             {
                 continue;
             }
+            string url = $"{item.ip}:{item.port}";
             switch (type)
             {
                 case E_ServiceType.account:
-                    grcp_client_account.TryAdd(item.url, new GrpcClientAccount(item.url));
+                    grcp_client_account.TryAdd(url, new GrpcClientAccount(url));
                     break;
                 case E_ServiceType.match:
-                    grcp_client_match.TryAdd(item.url, new GrpcClientMatch(item.url));
+                    grcp_client_match.TryAdd(url, new GrpcClientMatch(url));
                     break;
                 case E_ServiceType.trade:
-                    grcp_client_trade.TryAdd(item.url, new GrpcClientTrade(item.url));
+                    grcp_client_trade.TryAdd(url, new GrpcClientTrade(url));
                     break;
             }
         }

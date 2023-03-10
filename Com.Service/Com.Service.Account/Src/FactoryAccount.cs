@@ -103,10 +103,15 @@ public class FactoryAccount
     /// </summary>
     private void StartGrpcService()
     {
+        Cluster? cluster = this.service_list.service_cluster.GetCluster(service_base.configuration.GetValue<long>("ClusterId"));
+        if (cluster == null)
+        {
+            return;
+        }
         Grpc.Core.Server server = new Grpc.Core.Server
         {
             Services = { AccountGrpc.BindService(new GrpcServiceAccount()) },
-            Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("ManagePort"), ServerCredentials.Insecure) }
+            Ports = { new ServerPort("0.0.0.0", cluster.port, ServerCredentials.Insecure) }
         };
         server.Start();
     }

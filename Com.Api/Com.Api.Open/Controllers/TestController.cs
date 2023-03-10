@@ -88,15 +88,16 @@ public class TestController : ControllerBase
     [Route("Init")]
     public int Init()
     {
-        Cluster cluster = new Cluster()
-        {
-            cluster_id = ServiceFactory.instance.worker.NextId(),
-            type = E_ServiceType.match,
-            url = "localhost:8081",
-            mark = "0123456789",
-            remark = ""
-        };
-        this.db.Cluster.Add(cluster);
+        // Cluster cluster = new Cluster()
+        // {
+        //     cluster_id = ServiceFactory.instance.worker.NextId(),
+        //     type = E_ServiceType.match,
+        //     ip = "localhost:8081",
+            
+        //     mark = "0123456789",
+        //     remark = ""
+        // };
+        // this.db.Cluster.Add(cluster);
         Vip vip0 = new Vip()
         {
             vip_id = ServiceFactory.instance.worker.NextId(),

@@ -22,7 +22,12 @@ public class Cluster
     /// 服务地址
     /// </summary>
     /// <value></value>
-    public string url { get; set; } = null!;
+    public string ip { get; set; } = null!;
+    /// <summary>
+    /// 端口
+    /// </summary>
+    /// <value></value>
+    public int port { get; set; }
     /// <summary>
     /// 标记0~9
     /// </summary>

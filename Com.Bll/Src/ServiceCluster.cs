@@ -31,7 +31,6 @@ public class ServiceCluster
         this.service_key = new ServiceKey(service_base);
     }
 
-
     /// <summary>
     /// 保存到redis
     /// </summary>
@@ -63,7 +62,7 @@ public class ServiceCluster
             Cluster? cluster = JsonConvert.DeserializeObject<Cluster>(item.Value!);
             if (cluster != null && cluster.type == type && cluster.mark.Contains(remain.ToString()))
             {
-                return cluster.url;
+                return cluster.ip + ":" + cluster.port;
             }
         }
         return null;
@@ -92,6 +91,14 @@ public class ServiceCluster
         return lists;
     }
 
-
+    /// <summary>
+    /// 获取所有数据
+    /// </summary>
+    /// <returns></returns>
+    public Cluster? GetCluster(long cluster_id)
+    {
+        using DbContextEF db = this.service_base.db_factory.CreateDbContext();
+        return db.Cluster.FirstOrDefault(P => P.cluster_id == cluster_id);
+    }
 
 }
