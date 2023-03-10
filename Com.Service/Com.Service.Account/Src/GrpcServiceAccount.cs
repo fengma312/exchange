@@ -9,7 +9,7 @@ namespace Com.Service.Account;
 /// <summary>
 /// Grpc服务端
 /// </summary>
-public class ServiceAccountGrpc : AccountGrpc.AccountGrpcBase
+public class GrpcServiceAccount : AccountGrpc.AccountGrpcBase
 {
     /// <summary>
     /// 1:一元调用:判断程序/网络是否启动

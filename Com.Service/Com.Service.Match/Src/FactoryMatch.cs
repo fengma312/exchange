@@ -84,7 +84,7 @@ public class FactoryMatch
         this.service_depth = new MatchDepth(this.service_list);
         Grpc.Core.Server server = new Grpc.Core.Server
         {
-            Services = { MatchGrpc.BindService(new ServiceMatchGrpc()) },
+            Services = { MatchGrpc.BindService(new GrpcServiceMatch()) },
             Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("manage_port"), ServerCredentials.Insecure) }
         };
         server.Start();

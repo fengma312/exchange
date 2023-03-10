@@ -9,7 +9,7 @@ namespace Com.Service.Trade;
 /// <summary>
 /// Grpc服务端
 /// </summary>
-public class ServiceTradeGrpc : TradeGrpc.TradeGrpcBase
+public class GrpcServiceTrade : TradeGrpc.TradeGrpcBase
 {
     /// <summary>
     /// 1:一元调用:判断程序/网络是否启动

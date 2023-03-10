@@ -105,7 +105,7 @@ public class FactoryAccount
     {
         Grpc.Core.Server server = new Grpc.Core.Server
         {
-            Services = { AccountGrpc.BindService(new ServiceAccountGrpc()) },
+            Services = { AccountGrpc.BindService(new GrpcServiceAccount()) },
             Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("ManagePort"), ServerCredentials.Insecure) }
         };
         server.Start();

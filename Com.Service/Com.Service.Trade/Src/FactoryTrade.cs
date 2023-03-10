@@ -107,7 +107,7 @@ public class FactoryTrade
     {
         Grpc.Core.Server server = new Grpc.Core.Server
         {
-            Services = { TradeGrpc.BindService(new ServiceTradeGrpc()) },
+            Services = { TradeGrpc.BindService(new GrpcServiceTrade()) },
             Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("ManagePort"), ServerCredentials.Insecure) }
         };
         server.Start();
