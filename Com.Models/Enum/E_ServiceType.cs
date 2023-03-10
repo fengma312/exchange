@@ -18,8 +18,12 @@ public enum E_ServiceType
     /// </summary>
     admin = 3,
     /// <summary>
+    /// 账户服务
+    /// </summary>
+    account = 4,
+    /// <summary>
     /// 公开api服务
     /// </summary>
-    openapi = 4
+    openapi = 5
 
 }

@@ -2,7 +2,7 @@ using Grpc.Net.Client;
 using Grpc.Core;
 using ServiceMatchGrpc;
 
-namespace Com.Api.Admin;
+namespace Com.Bll;
 
 /// <summary>
 /// Grpc客户端:撮合服务
@@ -49,7 +49,7 @@ public class GrpcClientMatch
         SearchSymbolRes res = await client.SearchSymbolAsync(req);
         foreach (var item in res.SymbolLists)
         {
-            
+
         }
         await channel.ShutdownAsync();
         return res;

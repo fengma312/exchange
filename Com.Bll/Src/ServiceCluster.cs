@@ -46,19 +46,42 @@ public class ServiceCluster
     {
         long remain = id % 10;
         HashEntry[] he = ServiceFactory.instance.redis.HashGetAll(this.service_key.GetRedisTable(nameof(Cluster)));
-        foreach (var json in he)
+        foreach (var item in he)
         {
-            if (json.Value.IsNullOrEmpty)
+            if (item.Value.IsNullOrEmpty)
             {
                 continue;
             }
-            Cluster? item = JsonConvert.DeserializeObject<Cluster>(json.Value!);
-            if (item != null && item.type == type && item.mark.Contains(remain.ToString()))
+            Cluster? cluster = JsonConvert.DeserializeObject<Cluster>(item.Value!);
+            if (cluster != null && cluster.type == type && cluster.mark.Contains(remain.ToString()))
             {
-                return item.url;
+                return cluster.url;
             }
         }
         return null;
+    }
+
+    /// <summary>
+    /// 获取所有数据
+    /// </summary>
+    /// <returns></returns>
+    public List<Cluster> GetAllCluster()
+    {
+        List<Cluster> lists = new List<Cluster>();
+        HashEntry[] he = ServiceFactory.instance.redis.HashGetAll(this.service_key.GetRedisTable(nameof(Cluster)));
+        foreach (var item in he)
+        {
+            if (item.Value.IsNullOrEmpty)
+            {
+                continue;
+            }
+            Cluster? cluster = JsonConvert.DeserializeObject<Cluster>(item.Value!);
+            if (cluster != null)
+            {
+                lists.Add(cluster);
+            }
+        }
+        return lists;
     }
 
 
