@@ -2,12 +2,7 @@ syntax = "proto3";
 import "google/protobuf/wrappers.proto";
 option csharp_namespace = "ServiceAccountGrpc";
 // package Exchange;
-service AccountGrpc { 
-  
-  // rpc UnaryCall (Request) returns (Response);
-  // rpc StreamingFromServer (Request) returns (stream Response);
-  // rpc StreamingFromClient (stream Request) returns (Response);
-  // rpc StreamingBothWays (stream Request) returns (stream Response);
+service AccountGrpc {   
 
   // 1:一元调用:判断程序/网络是否启动
   rpc Activity (ActivityReq) returns (ActivityRes);
