@@ -14,7 +14,12 @@ public class ServiceCluster
     /// 基础服务
     /// </summary>
     public readonly ServiceBase service_base;
-
+    /// <summary>
+    /// 表集合
+    /// </summary>
+    /// <typeparam name="long"></typeparam>
+    /// <typeparam name="Cluster"></typeparam>
+    /// <returns></returns>
     private readonly ConcurrentDictionary<long, Cluster> cluster = new ConcurrentDictionary<long, Cluster>();
 
     /// <summary>
