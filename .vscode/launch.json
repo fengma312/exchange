@@ -42,6 +42,22 @@
             }
         },
         {
+            "name": "Account",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Account",
+            "program": "${workspaceFolder}/Com.Service/Com.Service.Account/bin/Debug/net7.0/Com.Service.Account.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Com.Service/Com.Service.Account",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+                // "DOTNET_ENVIRONMENT": "Staging"
+                //"DOTNET_ENVIRONMENT": "Production"
+            }
+        },
+        {
             "name": "Match",
             "type": "coreclr",
             "request": "launch",
