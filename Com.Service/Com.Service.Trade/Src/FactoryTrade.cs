@@ -62,7 +62,12 @@ public class FactoryTrade
     {
         this.service_base = service_base;
         this.service_list = new ServiceList(service_base);
-        this.LoadConfig();
+        Cluster? cluster = this.service_list.service_cluster.GetCluster(service_base.configuration.GetValue<long>("ClusterId"));
+        if (cluster == null)
+        {
+            return;
+        }
+        this.LoadConfig(cluster.mark);
         foreach (var item in service.Values)
         {
             if (item.info.status)
@@ -70,52 +75,41 @@ public class FactoryTrade
                 item.StartTrade();
             }
         }
-        this.StartGrpcService();
+        this.StartGrpcService(cluster.port);
     }
 
     /// <summary>
     /// 加载交易对配置
     /// </summary>
-    private void LoadConfig()
+    /// <param name="mark">标记</param>
+    private void LoadConfig(string mark)
     {
-        List<long>? market_id = this.service_base.configuration.GetSection("MarketId").Get<List<long>>();
-        if (market_id == null || market_id.Count == 0)
-        {
-            this.service_base.logger.LogWarning($"交易服务没有配置任何交易对");
-            return;
-        }
-        List<Market> markets = this.service_list.service_market.GetMarketById(market_id);
-        if (markets == null || markets.Count == 0)
-        {
-            this.service_base.logger.LogWarning($"交易服务没有配置任何交易对");
-            return;
-        }
+        List<Market> markets = this.service_list.service_market.GetAllMarket();
         foreach (var item in markets)
         {
-            TradeModel model = new TradeModel(item)
+            if (mark.Contains((item.market_id % 10).ToString()))
             {
+                TradeModel model = new TradeModel(item)
+                {
 
-            };
-            this.service.TryAdd(item.market_id, model);
+                };
+                this.service.TryAdd(item.market_id, model);
+            }
         }
     }
 
     /// <summary>
     /// 启动Grpc服务端
     /// </summary>
-    private void StartGrpcService()
+    private void StartGrpcService(int port)
     {
         Grpc.Core.Server server = new Grpc.Core.Server
         {
             Services = { TradeGrpc.BindService(new GrpcServiceTrade()) },
-            Ports = { new ServerPort("0.0.0.0", service_base.configuration.GetValue<int>("ManagePort"), ServerCredentials.Insecure) }
+            Ports = { new ServerPort("0.0.0.0", port, ServerCredentials.Insecure) }
         };
         server.Start();
     }
-
-
-
-
 
     /// <summary>
     /// 分配撮合对

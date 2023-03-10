@@ -46,7 +46,6 @@ public class MainService : BackgroundService
         try
         {
             ServiceFactory.instance.Init(this.service_base);
-
             ServiceFactory.instance.InitRedis();
             ServiceFactory.instance.InitSnowflake(E_ServiceType.trade);
             ServiceFactory.instance.InitMq();

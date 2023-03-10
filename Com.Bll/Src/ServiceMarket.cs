@@ -174,5 +174,21 @@ public class ServiceMarket
         }
     }
 
+    /// <summary>
+    /// 获取交易对基本信息
+    /// </summary>
+    /// <param name="market"></param>
+    /// <returns></returns>
+    public List<Market> GetAllMarket()
+    {
+        //using (var scope = ServiceFactory.instance.constant.provider.CreateScope())
+        {
+            using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
+            {
+                return db.Market.AsNoTracking().ToList();
+            }
+        }
+    }
+
 
 }
