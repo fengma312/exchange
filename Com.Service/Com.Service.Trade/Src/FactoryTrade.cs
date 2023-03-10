@@ -95,7 +95,7 @@ public class FactoryTrade
             {
                 TradeModel model = new TradeModel(item)
                 {
-
+                    
                 };
                 this.service.TryAdd(item.market_id, model);
             }
