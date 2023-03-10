@@ -20,6 +20,9 @@ namespace Com.Service.Account;
 /// </summary>
 public class BaseJobs : IJob
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public readonly ServiceBase service_base;
     /// <summary>
     /// 日志编号
