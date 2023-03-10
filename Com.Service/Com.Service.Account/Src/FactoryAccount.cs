@@ -62,41 +62,19 @@ public class FactoryAccount
     {
         this.service_base = service_base;
         this.service_list = new ServiceList(service_base);
-        this.LoadConfig();
-        foreach (var item in service.Values)
-        {
-            if (item.info.status)
-            {
-                item.StartTrade();
-            }
-        }
         this.StartGrpcService();
     }
 
     /// <summary>
     /// 加载交易对配置
     /// </summary>
-    private void LoadConfig()
+    private void LoadConfig(List<long> user_id)
     {
-        List<long>? market_id = this.service_base.configuration.GetSection("MarketId").Get<List<long>>();
-        if (market_id == null || market_id.Count == 0)
+        List<long> id = user_id.Except(this.service.Keys).ToList();
+        List<Users> users = this.service_list.service_user.GetUser(id);
+        foreach (var item in users)
         {
-            this.service_base.logger.LogWarning($"交易服务没有配置任何交易对");
-            return;
-        }
-        List<Market> markets = this.service_list.service_market.GetMarketById(market_id);
-        if (markets == null || markets.Count == 0)
-        {
-            this.service_base.logger.LogWarning($"交易服务没有配置任何交易对");
-            return;
-        }
-        foreach (var item in markets)
-        {
-            AccountModel model = new AccountModel(item)
-            {
-
-            };
-            this.service.TryAdd(item.market_id, model);
+            this.service.TryAdd(item.user_id, new AccountModel(item));
         }
     }
 

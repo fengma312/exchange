@@ -51,7 +51,7 @@ public class MainService : BackgroundService
             // ServiceFactory.instance.InitSnowflake(E_ServiceType.collector);
             // ServiceFactory.instance.InitMq();
             // ServiceFactory.instance.InitEs();
-            // FactoryMatch.instance.Init(this.service_base);
+            FactoryAccount.instance.Init(this.service_base);
             this.service_base.logger.LogInformation("启动业务后台服务成功");
         }
         catch (Exception ex)

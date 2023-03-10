@@ -28,7 +28,7 @@ public class AccountModel
     /// 交易对基本信息
     /// </summary>
     /// <value></value>
-    public Market info { get; set; } = null!;
+    public Users info { get; set; } = null!;
     /// <summary>
     /// 撮合服务
     /// </summary>
@@ -58,10 +58,10 @@ public class AccountModel
     /// 初始化
     /// </summary>
     /// <param name="info"></param>
-    public AccountModel(Market info)
+    public AccountModel(Users info)
     {
         this.info = info;
-        this.eventId = new EventId(1, info.symbol);
+        this.eventId = new EventId(1, info.user_name);
         this.mq_helper = new HelperMq(ServiceFactory.instance.connection_factory.CreateConnection());
     }
 

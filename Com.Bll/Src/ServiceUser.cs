@@ -304,6 +304,22 @@ public class ServiceUser
     }
 
     /// <summary>
+    /// 获取用户
+    /// </summary>
+    /// <param name="symbol"></param>
+    /// <returns></returns>
+    public List<Users> GetUser(List<long> uid)
+    {
+        //using (var scope = ServiceFactory.instance.constant.provider.CreateScope())
+        {
+            using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
+            {
+                return db.Users.AsNoTracking().Where(P => uid.Contains(P.user_id)).ToList();
+            }
+        }
+    }
+
+    /// <summary>
     /// 获取vip
     /// </summary>
     /// <param name="id"></param>
