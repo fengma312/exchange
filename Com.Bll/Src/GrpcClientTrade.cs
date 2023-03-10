@@ -4,7 +4,7 @@ using ServiceTradeGrpc;
 namespace Com.Bll;
 
 /// <summary>
-/// Grpc客户端:账户服务
+/// Grpc客户端:交易服务
 /// </summary>
 public class GrpcClientTrade
 {

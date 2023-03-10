@@ -5,9 +5,9 @@ using ServiceMatchGrpc;
 namespace Com.Api.Admin;
 
 /// <summary>
-/// 
+/// Grpc客户端:撮合服务
 /// </summary>
-public class GrpcMatchingImpl
+public class GrpcClientMatch
 {
     /// <summary>
     /// 
@@ -18,7 +18,7 @@ public class GrpcMatchingImpl
     /// 
     /// </summary>
     /// <param name="url"></param>
-    public GrpcMatchingImpl(string url)
+    public GrpcClientMatch(string url)
     {
         this.url = url;
     }
