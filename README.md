@@ -4,14 +4,14 @@
 项目说明:
 
 Com.Api     
-    Com.Api.Open                                    公开api
-    Com.Api.Admin                                   后台管理   
+    Com.Api.Open                                    公开api                 8040
+Com.Api.Admin                                   后台管理                    8050
 Com.Models                                          模型
 Com.Bll                                             业务逻辑层
 Com.Service
-    Com.Service.Account                             账户服务        8010
-    Com.Service.Match                               撮合服务        8020
-    Com.Service.Trade                               交易服务        8030
+    Com.Service.Account                             账户服务                8010
+    Com.Service.Match                               撮合服务                8020
+    Com.Service.Trade                               交易服务                8030
 
 
 
