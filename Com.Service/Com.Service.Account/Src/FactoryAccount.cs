@@ -21,13 +21,17 @@ public class FactoryAccount
     /// <returns></returns>
     public static readonly FactoryAccount instance = new FactoryAccount();
     /// <summary>
+    /// 日志事件ID
+    /// </summary>
+    public EventId eventId;
+    /// <summary>
     /// 基础服务
     /// </summary>
     public ServiceBase service_base = null!;
     /// <summary>
     /// 服务列表
     /// </summary>
-    public ServiceList service_list = null!;  
+    public ServiceList service_list = null!;
     /// <summary>
     /// 交易服务集合
     /// </summary>
@@ -35,7 +39,7 @@ public class FactoryAccount
     /// <typeparam name="TradeModel">交易对象</typeparam>
     /// <returns></returns>
     public ConcurrentDictionary<long, AccountModel> service = new ConcurrentDictionary<long, AccountModel>();
-    
+
     /// <summary>
     /// 私有构造方法
     /// </summary>
@@ -70,6 +74,7 @@ public class FactoryAccount
             Ports = { new ServerPort("0.0.0.0", cluster.port, ServerCredentials.Insecure) }
         };
         server.Start();
+        this.service_base.logger.LogInformation(this.eventId, $"Grpc账户服务启动,监听端口:{cluster.port}");
     }
 
     /// <summary>
