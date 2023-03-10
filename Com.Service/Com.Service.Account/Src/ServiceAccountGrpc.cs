@@ -17,11 +17,45 @@ public class ServiceAccountGrpc : AccountGrpc.AccountGrpcBase
     /// <param name="request"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override async Task<ActivityRes> Activity(ActivityReq request, ServerCallContext context)
+    public override async Task<Google.Protobuf.WellKnownTypes.Empty> Activity(Google.Protobuf.WellKnownTypes.Empty request, ServerCallContext context)
     {
-        ActivityRes res = new ActivityRes();
-        return await Task.FromResult<ActivityRes>(res);
+        return await Task.FromResult(request);
     }
+
+    /// <summary>
+    /// 2:加载用户信息
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public override async Task<Google.Protobuf.WellKnownTypes.Empty> LoadUser(LoadUserReq request, ServerCallContext context)
+    {
+        FactoryAccount.instance.LoadConfig(request.UserId.ToList());
+        return await Task.FromResult(new Google.Protobuf.WellKnownTypes.Empty());
+    }
+
+    /// <summary>
+    /// 3:获取用户信息
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public override async Task<GetUserRes> GetUser(GetUserReq request, ServerCallContext context)
+    {       
+        GetUserRes res = new GetUserRes();
+        foreach (var item in FactoryAccount.instance.GetUser(request.UserId.ToList()))
+        {
+            res.Users.Add(new UserInfo()
+            {
+                UserId = item.user_id,
+                UserName = item.user_name,
+            });
+        }
+        return await Task.FromResult(res);
+    }
+
+
+
 
     // /// <summary>
     // /// 2:一元调用:管理撮合交易对(开启,停止)

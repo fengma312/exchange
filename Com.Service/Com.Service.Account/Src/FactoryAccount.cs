@@ -65,17 +65,37 @@ public class FactoryAccount
         this.StartGrpcService();
     }
 
+
+
     /// <summary>
     /// 加载交易对配置
     /// </summary>
-    private void LoadConfig(List<long> user_id)
+    public void LoadConfig(List<long> user_id)
     {
-        List<long> id = user_id.Except(this.service.Keys).ToList();
+        List<long> id = user_id.Distinct().Except(this.service.Keys).ToList();
         List<Users> users = this.service_list.service_user.GetUser(id);
         foreach (var item in users)
         {
             this.service.TryAdd(item.user_id, new AccountModel(item));
         }
+    }
+
+    /// <summary>
+    /// 获取用户信息
+    /// </summary>
+    /// <param name="user_id"></param>
+    /// <returns></returns>
+    public List<Users> GetUser(List<long> user_id)
+    {
+        List<Users> users = new List<Users>();
+        foreach (var item in user_id.Distinct())
+        {
+            if (this.service.TryGetValue(item, out var value))
+            {
+                users.Add(value.info);
+            }
+        }
+        return users;
     }
 
     /// <summary>
