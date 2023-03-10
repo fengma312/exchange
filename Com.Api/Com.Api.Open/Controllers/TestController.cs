@@ -77,7 +77,7 @@ public class TestController : ControllerBase
     // [Route("aa")]
     public void aa()
     {
-        
+
     }
 
     /// <summary>
@@ -88,16 +88,59 @@ public class TestController : ControllerBase
     [Route("Init")]
     public int Init()
     {
-        // Cluster cluster = new Cluster()
-        // {
-        //     cluster_id = ServiceFactory.instance.worker.NextId(),
-        //     type = E_ServiceType.match,
-        //     ip = "localhost:8081",
-            
-        //     mark = "0123456789",
-        //     remark = ""
-        // };
-        // this.db.Cluster.Add(cluster);
+        Cluster cluster1 = new Cluster()
+        {
+            cluster_id = 1,
+            type = E_ServiceType.admin,
+            ip = "localhost",
+            port = 8050,
+            mark = "0123456789",
+            remark = "管理api"
+        };
+        Cluster cluster2 = new Cluster()
+        {
+            cluster_id = 2,
+            type = E_ServiceType.openapi,
+            ip = "localhost",
+            port = 8040,
+            mark = "0123456789",
+            remark = "公开api"
+        };
+        Cluster cluster3 = new Cluster()
+        {
+            cluster_id = 3,
+            type = E_ServiceType.admin,
+            ip = "localhost",
+            port = 8010,
+            mark = "0123456789",
+            remark = "账户服务"
+        };
+        Cluster cluster4 = new Cluster()
+        {
+            cluster_id = 4,
+            type = E_ServiceType.trade,
+            ip = "localhost",
+            port = 8030,
+            mark = "0123456789",
+            remark = "交易服务"
+        };
+        Cluster cluster5 = new Cluster()
+        {
+            cluster_id = 5,
+            type = E_ServiceType.match,
+            ip = "localhost",
+            port = 8020,
+            mark = "0123456789",
+            remark = "撮合服务"
+        };
+
+
+        this.db.Cluster.Add(cluster1);
+        this.db.Cluster.Add(cluster2);
+        this.db.Cluster.Add(cluster3);
+        this.db.Cluster.Add(cluster4);
+        this.db.Cluster.Add(cluster5);
+
         Vip vip0 = new Vip()
         {
             vip_id = ServiceFactory.instance.worker.NextId(),

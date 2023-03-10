@@ -74,5 +74,6 @@ public class Wallet
     /// </summary>
     /// <value></value>
     [JsonIgnore]
+    [Timestamp]
     public byte[] timestamp { get; set; } = null!;
 }

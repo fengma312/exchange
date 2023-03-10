@@ -115,7 +115,7 @@ public class DbContextEF : DbContext
         modelBuilder.Entity<Cluster>(o =>
         {
             o.HasKey(p => p.cluster_id);
-            o.HasIndex(P => new { P.ip,P.port }).IsUnique();
+            o.HasIndex(P => new { P.ip, P.port }).IsUnique();
             o.Property(P => P.cluster_id).IsRequired().ValueGeneratedNever().HasColumnType("bigint").HasComment("id");
             o.Property(P => P.type).IsRequired().HasColumnType("int2").HasComment("服务类型");
             o.Property(P => P.ip).IsRequired().HasMaxLength(50).HasComment("服务地址");
