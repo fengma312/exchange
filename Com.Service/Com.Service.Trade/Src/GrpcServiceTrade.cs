@@ -53,7 +53,6 @@ public class GrpcServiceTrade : TradeGrpc.TradeGrpcBase
         return await Task.FromResult(res);
     }
 
-
     /// <summary>
     /// 5:一元调用:交易对配置更改
     /// </summary>
