@@ -53,6 +53,15 @@ public class ServiceKey
     }
 
     /// <summary>
+    /// redis hast 数据库表缓存
+    /// </summary>
+    /// <returns></returns>
+    public string GetRedisTable(string table_name)
+    {
+        return string.Format("DbTable:{0}", table_name);
+    }
+
+    /// <summary>
     /// redis hast 深度行情 depth
     /// </summary>
     /// <returns></returns>
