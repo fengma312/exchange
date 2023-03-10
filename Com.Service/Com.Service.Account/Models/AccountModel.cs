@@ -14,7 +14,7 @@ namespace Com.Service.Account.Models;
 /// 交易对象
 /// </summary>
 public class AccountModel
-{    
+{
     /// <summary>
     /// 日志事件ID
     /// </summary>
@@ -24,7 +24,8 @@ public class AccountModel
     /// </summary>
     /// <value></value>
     public Users users { get; set; } = null!;
-       /// <summary>
+
+    /// <summary>
     /// 初始化
     /// </summary>
     /// <param name="users"></param>
@@ -32,7 +33,6 @@ public class AccountModel
     {
         this.users = users;
         this.eventId = new EventId(1, users.user_name);
-    
     }
 
 }

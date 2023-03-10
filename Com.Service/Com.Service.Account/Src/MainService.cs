@@ -45,11 +45,10 @@ public class MainService : BackgroundService
         this.service_base.logger.LogInformation("准备启动业务后台服务");
         try
         {
-            ServiceFactory.instance.Init(this.service_base);
-            // ServiceFactory.instance.InitDb();
-            // ServiceFactory.instance.InitRedis();
-            // ServiceFactory.instance.InitSnowflake(E_ServiceType.collector);
-            // ServiceFactory.instance.InitMq();
+            ServiceFactory.instance.Init(this.service_base);        
+            ServiceFactory.instance.InitRedis();
+            ServiceFactory.instance.InitSnowflake(E_ServiceType.account);
+            ServiceFactory.instance.InitMq();
             // ServiceFactory.instance.InitEs();
             FactoryAccount.instance.Init(this.service_base);
             this.service_base.logger.LogInformation("启动业务后台服务成功");
