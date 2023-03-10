@@ -21,6 +21,10 @@ public class FactoryTrade
     /// <returns></returns>
     public static readonly FactoryTrade instance = new FactoryTrade();
     /// <summary>
+    /// 日志事件ID
+    /// </summary>
+    public EventId eventId;
+    /// <summary>
     /// 基础服务
     /// </summary>
     public ServiceBase service_base = null!;
@@ -109,6 +113,7 @@ public class FactoryTrade
             Ports = { new ServerPort("0.0.0.0", port, ServerCredentials.Insecure) }
         };
         server.Start();
+        this.service_base.logger.LogInformation(this.eventId, $"Grpc交易服务启动,监听端口:{port}");
     }
 
     /// <summary>

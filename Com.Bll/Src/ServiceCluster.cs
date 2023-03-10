@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using Com.Bll.Models;
 using Com.Models.Db;
 using Com.Models.Enum;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -98,7 +99,7 @@ public class ServiceCluster
     public Cluster? GetCluster(long cluster_id)
     {
         using DbContextEF db = this.service_base.db_factory.CreateDbContext();
-        return db.Cluster.FirstOrDefault(P => P.cluster_id == cluster_id);
+        return db.Cluster.AsNoTracking().FirstOrDefault(P => P.cluster_id == cluster_id);
     }
 
 }
