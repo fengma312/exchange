@@ -1,4 +1,5 @@
 
+using Com.Bll;
 using Com.Models.Base;
 using Com.Models.Db;
 using Com.Models.Enum;
@@ -123,11 +124,13 @@ public class GrpcServiceTrade : TradeGrpc.TradeGrpcBase
     /// <returns></returns>
     public override async Task<TradePlaceOrderRes> TradePlaceOrder(TradePlaceOrderReq request, ServerCallContext context)
     {
-        Res<List<BaseOrdered>> response = FactoryTrade.instance.service_list.service_order.PlaceOrder(request.Symbol, request.Uid, request.UserName, request.Ip, JsonConvert.DeserializeObject<List<BaseOrder>>(request.Orders)!);
-        TradePlaceOrderRes res = new TradePlaceOrderRes()
+        TradePlaceOrderRes res = new TradePlaceOrderRes();
+        Common common = new Common(FactoryTrade.instance.service_base);
+        common.Look(ServiceFactory.instance.redis, FactoryTrade.instance.service_list.service_key.GetRedisLookUserId(request.Uid), request.Uid.ToString(), 10000, () =>
         {
-            Json = JsonConvert.SerializeObject(response)
-        };
+            Res<List<BaseOrdered>> response = FactoryTrade.instance.service_list.service_order.PlaceOrder(request.Symbol, request.Uid, request.UserName, request.Ip, JsonConvert.DeserializeObject<List<BaseOrder>>(request.Orders)!);
+            res.Json = JsonConvert.SerializeObject(response);
+        });
         return await Task.FromResult(res);
     }
 
@@ -139,11 +142,13 @@ public class GrpcServiceTrade : TradeGrpc.TradeGrpcBase
     /// <returns></returns>
     public override async Task<TradeCancelOrderRes> TradeCancelOrder(TradeCancelOrderReq request, ServerCallContext context)
     {
-        Res<bool> response = FactoryTrade.instance.service_list.service_order.CancelOrder(request.Symbol, request.Uid, request.Type, JsonConvert.DeserializeObject<List<long>>(request.Orders)!);
-        TradeCancelOrderRes res = new TradeCancelOrderRes()
+        TradeCancelOrderRes res = new TradeCancelOrderRes();
+        Common common = new Common(FactoryTrade.instance.service_base);
+        common.Look(ServiceFactory.instance.redis, FactoryTrade.instance.service_list.service_key.GetRedisLookUserId(request.Uid), request.Uid.ToString(), 10000, () =>
         {
-            Json = JsonConvert.SerializeObject(response)
-        };
+            Res<bool> response = FactoryTrade.instance.service_list.service_order.CancelOrder(request.Symbol, request.Uid, request.Type, JsonConvert.DeserializeObject<List<long>>(request.Orders)!);
+            res.Json = JsonConvert.SerializeObject(response);
+        });
         return await Task.FromResult(res);
     }
 

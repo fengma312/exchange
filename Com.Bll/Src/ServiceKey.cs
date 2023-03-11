@@ -138,6 +138,16 @@ public class ServiceKey
     }
 
     /// <summary>
+    /// 用户ID全局锁
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public string GetRedisLookUserId(long user_id)
+    {
+        return string.Format("look:userid:{0}", user_id);
+    }
+
+    /// <summary>
     /// MQ:发送历史成交记录
     /// </summary>
     /// <param name="market"></param>
