@@ -24,7 +24,6 @@ namespace Com.Api.Admin.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-
     /// <summary>
     /// Service:基础服务
     /// </summary>
@@ -33,26 +32,10 @@ public class UserController : ControllerBase
     /// Service:服务列表
     /// </summary>
     public readonly ServiceList service_list;
-
     /// <summary>
     /// db
     /// </summary>
     private readonly DbContextEF db;
-
-
-    /// <summary>
-    /// 登录信息
-    /// </summary>
-    /// <value></value>
-    private (long no, long user_id, string user_name, E_App app, string public_key) login
-    {
-        get
-        {
-            return this.service_list.service_user.GetLoginUser(User);
-        }
-    }
-
-
 
     /// <summary>
     /// 初始化

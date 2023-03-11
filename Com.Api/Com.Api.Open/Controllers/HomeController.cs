@@ -30,20 +30,6 @@ public class HomeController : ControllerBase
     public readonly ServiceList service_list;
 
     /// <summary>
-    /// 登录信息
-    /// </summary>
-    private (long no, long user_id, string user_name, E_App app, string public_key) login
-    {
-        get
-        {
-            return this.service_list.service_user.GetLoginUser(User);
-        }
-    }
-
-
-
-
-    /// <summary>
     /// 初始化
     /// </summary>
     /// <param name="provider">服务驱动</param>
