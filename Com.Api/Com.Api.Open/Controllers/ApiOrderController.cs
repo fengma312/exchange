@@ -19,7 +19,7 @@ namespace Com.Api.Open.Controllers;
 /// </summary>
 [TypeFilter(typeof(VerificationFilters))]
 [ApiController]
-[Route("api/order")]
+[Route("api/[controller]/[Action]")]
 public class ApiOrderController : ControllerBase
 {
 
@@ -65,7 +65,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="client_id">客户自定义订单id</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderPlace")]
     public Res<List<BaseOrdered>> OrderPlace(string symbol, E_TradeModel trade_model, E_OrderType type, E_OrderSide side, decimal? price, decimal? amount, decimal? total, decimal? trigger_hanging_price, decimal? trigger_cancel_price, string? client_id)
     {
         (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
@@ -104,7 +103,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="data">挂单数据</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderPlaces")]
     public Res<List<BaseOrdered>> OrderPlaces(CallOrder data)
     {
         (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
@@ -127,7 +125,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderCancelByUserId")]
     public Res<bool> OrderCancelByUserId(string symbol)
     {
         (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
@@ -150,7 +147,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="model">订单id key:symbol,data:订单id数组</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderCancelByOrderid")]
     public Res<bool> OrderCancelByOrderid(KeyList<string, long> model)
     {
         (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
@@ -199,7 +195,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderHanging")]
     [ResponseCache(CacheProfileName = "cache_0")]
     public Res<List<BaseOrdered>> GetOrderHanging(DateTimeOffset? start, DateTimeOffset? end, int skip = 0, int take = 50)
     {
@@ -216,7 +211,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderHistory")]
     [ResponseCache(CacheProfileName = "cache_1")]
     public Res<List<BaseOrdered>> GetOrderHistory(DateTimeOffset? start, DateTimeOffset? end, int skip = 0, int take = 50)
     {
@@ -249,7 +243,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderByState")]
     [ResponseCache(CacheProfileName = "cache_0")]
     public Res<List<BaseOrdered>> GetOrderByState(string symbol, E_OrderState state, DateTimeOffset start, DateTimeOffset end, int skip = 0, int take = 50)
     {
@@ -267,7 +260,6 @@ public class ApiOrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderByDate")]
     [ResponseCache(CacheProfileName = "cache_2")]
     public Res<List<BaseOrdered>> GetOrderByDate(string symbol, DateTimeOffset start, DateTimeOffset end, int skip = 0, int take = 50)
     {

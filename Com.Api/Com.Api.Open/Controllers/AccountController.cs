@@ -17,7 +17,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// 账户
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[Action]")]
 [AllowAnonymous]
 [ApiController]
 public class AccountController : ControllerBase
@@ -63,7 +63,6 @@ public class AccountController : ControllerBase
     /// <param name="recommend">推荐人id</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("register")]
     public Res<bool> Register(string email, string password, string code, string? recommend)
     {
         return this.service_list.service_user.Register(email, password, code, recommend, Request.GetIp());
@@ -77,7 +76,6 @@ public class AccountController : ControllerBase
     /// <param name="app">终端</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("login")]
     public Res<BaseUser> Login(string email, string password, E_App app)
     {
         return this.service_list.service_user.Login(email, password, app, Request.GetIp());
@@ -89,7 +87,6 @@ public class AccountController : ControllerBase
     /// <param name="email">邮件地址</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("SendEmailCodeByRegister")]
     public Res<bool> SendEmailCodeByRegister(string email)
     {
         Res<bool> res = new Res<bool>();

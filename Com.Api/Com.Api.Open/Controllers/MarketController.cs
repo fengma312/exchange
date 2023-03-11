@@ -17,7 +17,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// 行情数据
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [ApiController]
 [AllowAnonymous]
 public class MarketController : ControllerBase
@@ -51,7 +51,6 @@ public class MarketController : ControllerBase
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("market")]
     public Res<List<BaseMarket>> Market(List<string> symbol)
     {
         return this.service_list.service_market.Market(symbol);
@@ -63,7 +62,6 @@ public class MarketController : ControllerBase
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("ticker")]
     public Res<List<ResTicker>> Ticker(List<string> symbol)
     {
         return this.service_list.service_deal.Ticker(symbol);
@@ -76,7 +74,6 @@ public class MarketController : ControllerBase
     /// <param name="sz">深度档数,只支持10,50,200</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("depth")]
     public Res<ResDepth?> Depth(string symbol, int sz = 50)
     {
         return this.service_list.service_market.Depth(symbol, sz);
@@ -93,7 +90,6 @@ public class MarketController : ControllerBase
     /// <param name="take">获取行数</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("klines")]
     public Res<List<ResKline>?> Klines(string symbol, E_KlineType type, DateTimeOffset start, DateTimeOffset? end, long skip, long take)
     {
         return this.service_list.service_kline.Klines(symbol, type, start, end, skip, take);
@@ -109,7 +105,6 @@ public class MarketController : ControllerBase
     /// <param name="take">获取行数</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("deals")]
     public Res<List<BaseDeal>> Deals(string symbol, DateTimeOffset start, DateTimeOffset? end, long skip, long take)
     {
         return this.service_list.service_deal.Deals(symbol, start, end, skip, take);

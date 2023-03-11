@@ -73,19 +73,11 @@ public class TestController : ControllerBase
         this.db = db_factory.CreateDbContext();
     }
 
-    [HttpGet]
-    // [Route("aa")]
-    public void aa()
-    {
-
-    }
-
     /// <summary>
     /// 初始化配置
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Route("Init")]
     public int Init()
     {
         Cluster cluster1 = new Cluster()
@@ -336,7 +328,6 @@ public class TestController : ControllerBase
     /// <param name="count">次数</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("PlaceOrderText")]
     public Res<List<BaseOrdered>> PlaceOrderText(int count)
     {
         Res<List<BaseOrdered>> res = new Res<List<BaseOrdered>>();

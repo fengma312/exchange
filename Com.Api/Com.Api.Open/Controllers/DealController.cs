@@ -15,7 +15,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// 交易接口
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [Authorize]
 [ApiController]
 public class DealController : ControllerBase
@@ -66,7 +66,6 @@ public class DealController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetDealByuid")]
     [ResponseCache(CacheProfileName = "cache_1")]
     public Res<List<BaseDeal>> GetDealByuid(DateTimeOffset? start = null, DateTimeOffset? end = null, int skip = 0, int take = 50)
     {

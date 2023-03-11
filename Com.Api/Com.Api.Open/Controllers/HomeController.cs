@@ -16,7 +16,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// 基础接口
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [ApiController]
 public class HomeController : ControllerBase
 {
@@ -65,7 +65,6 @@ public class HomeController : ControllerBase
     /// <param name="site">站点</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetBaseInfo")]
     // [ResponseCache(CacheProfileName = "cache_3")]
     public Res<ResBaseInfo> GetBaseInfo(int site = 1)
     {
@@ -88,7 +87,6 @@ public class HomeController : ControllerBase
     /// <param name="time_zone">时区,8:东八区</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("SetTimeZone")]
     public Res<bool> SetTimeZone(int time_zone)
     {
         Res<bool> res = new Res<bool>();

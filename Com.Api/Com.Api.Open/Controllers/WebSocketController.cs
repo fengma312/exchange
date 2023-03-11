@@ -62,7 +62,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// websocket推送
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [AllowAnonymous]
 [ApiController]
 public class WebSocketController : ControllerBase

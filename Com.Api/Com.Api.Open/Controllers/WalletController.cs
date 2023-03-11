@@ -15,7 +15,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// 钱包接口
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [Authorize]
 [ApiController]
 public class WalletController : ControllerBase

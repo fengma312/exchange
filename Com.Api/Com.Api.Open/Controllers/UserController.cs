@@ -17,7 +17,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// 用户接口
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [Authorize]
 [ApiController]
 public class UserController : ControllerBase
