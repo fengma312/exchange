@@ -70,7 +70,7 @@ public class ServiceDeal
                 {
                     continue;
                 }
-                BaseDeal? res_deal = JsonConvert.DeserializeObject<BaseDeal>(item);
+                BaseDeal? res_deal = JsonConvert.DeserializeObject<BaseDeal>(item!);
                 if (res_deal != null)
                 {
                     res.data.Add(res_deal);
@@ -100,7 +100,7 @@ public class ServiceDeal
                 {
                     continue;
                 }
-                ResTicker? ticker = JsonConvert.DeserializeObject<ResTicker>(rv);
+                ResTicker? ticker = JsonConvert.DeserializeObject<ResTicker>(rv!);
                 if (ticker != null)
                 {
                     res.data.Add(ticker);
@@ -358,7 +358,7 @@ public class ServiceDeal
         RedisValue[] redisvalue = ServiceFactory.instance.redis.SortedSetRangeByRank(this.service_key.GetRedisDeal(market), 0, 1, StackExchange.Redis.Order.Descending);
         if (redisvalue.Length > 0)
         {
-            return JsonConvert.DeserializeObject<Deal>(redisvalue[0]);
+            return JsonConvert.DeserializeObject<Deal>(redisvalue[0]!);
         }
         return null;
     }

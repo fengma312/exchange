@@ -81,7 +81,7 @@ public class ServiceKline
                 {
                     continue;
                 }
-                ResKline? resKline = JsonConvert.DeserializeObject<ResKline>(item);
+                ResKline? resKline = JsonConvert.DeserializeObject<ResKline>(item!);
                 if (resKline != null)
                 {
                     res.data.Add(resKline);
@@ -89,7 +89,7 @@ public class ServiceKline
             }
             if (end == null || (end != null && end >= DateTimeOffset.UtcNow))
             {
-                ResKline? resKline = JsonConvert.DeserializeObject<ResKline>(ServiceFactory.instance.redis.HashGet(service_key.GetRedisKlineing(market.market_id), type.ToString()));
+                ResKline? resKline = JsonConvert.DeserializeObject<ResKline>(ServiceFactory.instance.redis.HashGet(service_key.GetRedisKlineing(market.market_id), type.ToString())!);
                 if (resKline != null)
                 {
                     res.data.RemoveAll(P => P.time_start == resKline.time_start);

@@ -159,7 +159,7 @@ public class ServiceFactory
     {
         try
         {
-            this.connection_factory = this.service_base.configuration.GetSection("RabbitMQ").Get<ConnectionFactory>();
+            this.connection_factory = this.service_base.configuration.GetSection("RabbitMQ").Get<ConnectionFactory>()!;
             if (this.connection_factory != null)
             {
                 mq_helper = new HelperMq(this.service_base, this.connection_factory);

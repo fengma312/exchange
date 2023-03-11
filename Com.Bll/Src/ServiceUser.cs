@@ -238,7 +238,7 @@ public class ServiceUser
                 ServiceFactory.instance.redis.KeyDelete(this.service_key.GetRedisVerificationCode(email));
                 long no = ServiceFactory.instance.worker.NextId();
                 ServiceFactory.instance.redis.HashDelete(this.service_key.GetRedisBlacklist(), $"{user.user_id}_{app}_*");
-                ServiceFactory.instance.redis.StringSet(this.service_key.GetRedisOnline(no), $"{user.user_id}_{user.user_name}_{app}", new TimeSpan(0, int.Parse(this.service_base.configuration["Jwt:Expires"]), 0));
+                ServiceFactory.instance.redis.StringSet(this.service_key.GetRedisOnline(no), $"{user.user_id}_{user.user_name}_{app}", new TimeSpan(0, int.Parse(this.service_base.configuration["Jwt:Expires"]!), 0));
 
                 res.code = E_Res_Code.ok;
                 res.data = user;

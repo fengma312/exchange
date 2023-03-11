@@ -98,7 +98,7 @@ public class ServiceMarket
                 return res;
             }
             res.code = E_Res_Code.ok;
-            res.data = JsonConvert.DeserializeObject<ResDepth>(rv);
+            res.data = JsonConvert.DeserializeObject<ResDepth>(rv!);
         }
         return res;
     }
