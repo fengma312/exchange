@@ -101,7 +101,7 @@ public class TestController : ControllerBase
         Cluster cluster3 = new Cluster()
         {
             cluster_id = 3,
-            type = E_ServiceType.admin,
+            type = E_ServiceType.account,
             ip = "localhost",
             port = 8010,
             mark = "0123456789",
