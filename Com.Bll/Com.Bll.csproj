@@ -33,9 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="proto\Match.proto" />
-    <Protobuf Include="proto\Trade.proto"/>
-    <Protobuf Include="proto\Account.proto"/>
+    <Protobuf Include="..\proto\Match.proto" />
+    <Protobuf Include="..\proto\Trade.proto"/>
+    <Protobuf Include="..\proto\Account.proto"/>
   </ItemGroup>
 
 </Project>
