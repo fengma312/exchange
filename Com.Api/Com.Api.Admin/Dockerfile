@@ -1,6 +1,6 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 8082
+EXPOSE 8050
 
 ENV ASPNETCORE_URLS=http://+:8082
 
@@ -9,7 +9,7 @@ ENV ASPNETCORE_URLS=http://+:8082
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Com.Api/Com.Api.Admin/Com.Api.Admin.csproj", "Com.Api/Com.Api.Admin/"]
 RUN dotnet restore "Com.Api/Com.Api.Admin/Com.Api.Admin.csproj"
