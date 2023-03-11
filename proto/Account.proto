@@ -18,13 +18,9 @@ message LoadUserReq{
   repeated int64 user_id=1;
 }
 
-message UserInfo{
-  int64 user_id=1;
-  string user_name=2;
-}
 message GetUserReq{
   repeated int64 user_id=1;
 };
 message GetUserRes{
-  repeated UserInfo users=1;  
+  string users=1;  
 }

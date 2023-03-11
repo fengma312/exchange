@@ -1,7 +1,9 @@
 
+using Com.Models.Db;
 using Com.Models.Enum;
 using Com.Service.Account.Models;
 using Grpc.Core;
+using Newtonsoft.Json;
 using ServiceAccountGrpc;
 
 namespace Com.Service.Account;
@@ -41,16 +43,9 @@ public class GrpcServiceAccount : AccountGrpc.AccountGrpcBase
     /// <param name="context"></param>
     /// <returns></returns>
     public override async Task<GetUserRes> GetUser(GetUserReq request, ServerCallContext context)
-    {       
+    {
         GetUserRes res = new GetUserRes();
-        foreach (var item in FactoryAccount.instance.GetUser(request.UserId.ToList()))
-        {
-            res.Users.Add(new UserInfo()
-            {
-                UserId = item.user_id,
-                UserName = item.user_name,
-            });
-        }
+        res.Users = JsonConvert.SerializeObject(FactoryAccount.instance.GetUser(request.UserId.ToList()));
         return await Task.FromResult(res);
     }
 
