@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: Com.Api/Com.Api.Admin/Dockerfile
     environment:
-      - DOTNET_ENVIRONMENT=home
+      - ASPNETCORE_ENVIRONMENT=home
 
   comapiopen:
     container_name: com.api.open
@@ -21,7 +21,7 @@ services:
     depends_on:
       - comapiadmin
     environment:
-      - DOTNET_ENVIRONMENT=home
+      - ASPNETCORE_ENVIRONMENT=home
 
   comserviceAccount:
     container_name: Com.Service.Account
