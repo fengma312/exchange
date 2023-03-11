@@ -17,7 +17,7 @@ namespace Com.Api.Admin.Controllers;
 /// <summary>
 /// 订单接口
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 // [Authorize]
 [ApiController]
 public class OrderController : ControllerBase
@@ -64,7 +64,6 @@ public class OrderController : ControllerBase
     /// <param name="take">提取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrder")]
     [ResponseCache(CacheProfileName = "cache_1")]
     public Res<List<Orders>> GetOrder(string symbol, string? user_name = null, E_OrderState? state = null, long? order_id = null, DateTimeOffset? start = null, DateTimeOffset? end = null, int skip = 0, int take = 50)
     {
@@ -78,7 +77,6 @@ public class OrderController : ControllerBase
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderCancelBySymbol")]
     public Res<bool> OrderCancelBySymbol(string symbol)
     {
         Res<bool> result = new Res<bool>();

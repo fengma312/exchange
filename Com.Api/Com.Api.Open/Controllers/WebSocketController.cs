@@ -116,7 +116,6 @@ public class WebSocketController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Route("push")]
     public async Task<IActionResult> Push()
     {
         if (HttpContext.WebSockets.IsWebSocketRequest)

@@ -69,7 +69,6 @@ public class OrderController : ControllerBase
     /// <param name="client_id">客户自定义订单id</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderPlace")]
     public Res<List<BaseOrdered>> OrderPlace(string symbol, E_TradeModel trade_model, E_OrderType type, E_OrderSide side, decimal? price, decimal? amount, decimal? total, decimal? trigger_hanging_price, decimal? trigger_cancel_price, string? client_id)
     {
         Res<List<BaseOrdered>> result = new Res<List<BaseOrdered>>();
@@ -111,7 +110,6 @@ public class OrderController : ControllerBase
     /// <param name="data">挂单数据</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderPlaces")]
     public Res<List<BaseOrdered>> OrderPlaces(CallOrder data)
     {
         Res<List<BaseOrdered>> result = new Res<List<BaseOrdered>>();
@@ -137,7 +135,6 @@ public class OrderController : ControllerBase
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderCancelByUserId")]
     public Res<bool> OrderCancelByUserId(string symbol)
     {
         Res<bool> result = new Res<bool>();
@@ -163,7 +160,6 @@ public class OrderController : ControllerBase
     /// <param name="model">订单id key:symbol,data:订单id数组</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("OrderCancelByOrderid")]
     public Res<bool> OrderCancelByOrderid(KeyList<string, long> model)
     {
         Res<bool> result = new Res<bool>();
@@ -190,7 +186,6 @@ public class OrderController : ControllerBase
     // /// <param name="model">订单id</param>
     // /// <returns></returns>
     // [HttpPost]
-    // [Route("OrderCancelByClientId")]
     // public Res<bool> OrderCancelByClientId(CallOrderCancel model)
     // {
     //     Res<bool> result = new Res<bool>();
@@ -219,7 +214,6 @@ public class OrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderHanging")]
     [ResponseCache(CacheProfileName = "cache_0")]
     public Res<List<BaseOrdered>> GetOrderHanging(DateTimeOffset? start, DateTimeOffset? end, int skip = 0, int take = 50)
     {
@@ -235,7 +229,6 @@ public class OrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderHistory")]
     [ResponseCache(CacheProfileName = "cache_1")]
     public Res<List<BaseOrdered>> GetOrderHistory(DateTimeOffset? start, DateTimeOffset? end, int skip = 0, int take = 50)
     {
@@ -248,7 +241,6 @@ public class OrderController : ControllerBase
     // /// <param name="model">key:symbol,data:订单id数组</param>
     // /// <returns></returns>
     // [HttpPost]
-    // [Route("GetOrderById")]
     // [ResponseCache(CacheProfileName = "cache_0")]
     // public Res<List<BaseOrdered>> GetOrderById(KeyList<string, long> model)
     // {
@@ -266,7 +258,6 @@ public class OrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderByState")]
     [ResponseCache(CacheProfileName = "cache_0")]
     public Res<List<BaseOrdered>> GetOrderByState(string symbol, E_OrderState state, DateTimeOffset start, DateTimeOffset end, int skip = 0, int take = 50)
     {
@@ -283,7 +274,6 @@ public class OrderController : ControllerBase
     /// <param name="take">获取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetOrderByDate")]
     [ResponseCache(CacheProfileName = "cache_2")]
     public Res<List<BaseOrdered>> GetOrderByDate(string symbol, DateTimeOffset start, DateTimeOffset end, int skip = 0, int take = 50)
     {

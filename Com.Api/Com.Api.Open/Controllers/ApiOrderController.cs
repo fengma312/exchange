@@ -19,7 +19,7 @@ namespace Com.Api.Open.Controllers;
 /// </summary>
 [TypeFilter(typeof(VerificationFilters))]
 [ApiController]
-[Route("api/[controller]/[Action]")]
+[Route("api/[controller]/[action]")]
 public class ApiOrderController : ControllerBase
 {
 
@@ -169,7 +169,6 @@ public class ApiOrderController : ControllerBase
     // /// <param name="model">订单id</param>
     // /// <returns></returns>
     // [HttpPost]
-    // [Route("OrderCancelByClientId")]
     // public Res<bool> OrderCancelByClientId(CallOrderCancel model)
     // {
     //     (bool transaction, Users? users, UsersApi? api) user_api =this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]!);
@@ -224,7 +223,6 @@ public class ApiOrderController : ControllerBase
     // /// <param name="model">key:symbol,data:订单id数组</param>
     // /// <returns></returns>
     // [HttpPost]
-    // [Route("GetOrderById")]
     // [ResponseCache(CacheProfileName = "cache_0")]
     // public Res<List<BaseOrdered>> GetOrderById(KeyList<string, long> model)
     // {

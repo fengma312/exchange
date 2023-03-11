@@ -19,7 +19,7 @@ namespace Com.Api.Admin.Controllers;
 /// <summary>
 /// 用户接口
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [Authorize]
 [ApiController]
 public class UserController : ControllerBase
@@ -78,7 +78,6 @@ public class UserController : ControllerBase
     /// <param name="take">提取多少行</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetUser")]
     public Res<List<Users>> GetUser(long? uid, string? user_name, string? email, string? phone, int skip = 0, int take = 50)
     {
         Res<List<Users>> res = new Res<List<Users>>();
@@ -92,7 +91,6 @@ public class UserController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Route("ApplyRealname")]
     public Res<List<BaseUser>> ApplyRealname()
     {
         Res<List<BaseUser>> res = new Res<List<BaseUser>>();
@@ -108,7 +106,6 @@ public class UserController : ControllerBase
     /// <param name="verify">验证方式</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("VerifyRealname")]
     public Res<bool> VerifyRealname(long uid, E_Verify verify)
     {
         Res<bool> res = new Res<bool>();

@@ -153,7 +153,7 @@ public class ServiceKline
         //     klines.Add(cycle, kline_new);
         // }
         // return klines;
-        return null;
+        return null!;
     }
 
     /// <summary>

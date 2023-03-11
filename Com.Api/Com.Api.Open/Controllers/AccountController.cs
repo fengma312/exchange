@@ -17,7 +17,7 @@ namespace Com.Api.Open.Controllers;
 /// <summary>
 /// 账户
 /// </summary>
-[Route("[controller]/[Action]")]
+[Route("[controller]/[action]")]
 [AllowAnonymous]
 [ApiController]
 public class AccountController : ControllerBase

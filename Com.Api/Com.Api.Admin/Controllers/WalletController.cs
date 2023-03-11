@@ -17,7 +17,7 @@ namespace Com.Api.Admin.Controllers;
 /// <summary>
 /// 钱包接口
 /// </summary>
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [Authorize]
 [ApiController]
 public class WalletController : ControllerBase
@@ -68,7 +68,6 @@ public class WalletController : ControllerBase
     /// <param name="amount">金额</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("Transfer")]
     public Res<bool> Transfer(long coin_id, E_WalletType from, E_WalletType to, decimal amount)
     {
         return service_list.service_wallet.Transfer(login.user_id, coin_id, from, to, amount);
@@ -81,7 +80,6 @@ public class WalletController : ControllerBase
     /// <param name="coin_name">币名</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetWallet")]
     public Res<List<Wallet>?> GetWallet(E_WalletType wallet_type, string? coin_name)
     {
         Res<List<Wallet>?> res = new Res<List<Wallet>?>();
@@ -118,7 +116,6 @@ public class WalletController : ControllerBase
     /// <param name="take">提取行数</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetRunningFee")]
     public Res<List<BaseRunning>> GetRunningFee(string? user_name, long? relation_id, string? coin_name, DateTimeOffset? start, DateTimeOffset? end, int skip, int take)
     {
         Res<List<BaseRunning>> res = new Res<List<BaseRunning>>();
@@ -139,7 +136,6 @@ public class WalletController : ControllerBase
     /// <param name="take">提取行数</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetRunningTrade")]
     public Res<List<BaseRunning>> GetRunningTrade(string? user_name, long? relation_id, string? coin_name, DateTimeOffset? start, DateTimeOffset? end, int skip, int take)
     {
         Res<List<BaseRunning>> res = new Res<List<BaseRunning>>();

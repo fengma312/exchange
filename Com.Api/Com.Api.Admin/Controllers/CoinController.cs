@@ -20,7 +20,7 @@ namespace Com.Api.Admin.Controllers;
 /// </summary>
 [ApiController]
 [AllowAnonymous]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class CoinController : ControllerBase
 {
     /// <summary>
@@ -56,7 +56,6 @@ public class CoinController : ControllerBase
     /// <param name="icon">币图标</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("AddCoin")]
     public async Task<Res<bool>> AddCoin(string coin_name, string full_name, IFormFile icon)
     {
         Res<bool> res = new Res<bool>();
@@ -90,7 +89,7 @@ public class CoinController : ControllerBase
         coin.contract = null;
 
         this.db.Coin.Add(coin);
-        if (this.db.SaveChanges() > 0)
+        if (await this.db.SaveChangesAsync() > 0)
         {
             res.code = E_Res_Code.ok;
             res.data = true;
@@ -106,7 +105,6 @@ public class CoinController : ControllerBase
     /// <param name="coin_name">币名称</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetCoin")]
     public Res<List<Coin>> GetCoin(string? coin_name)
     {
         Res<List<Coin>> res = new Res<List<Coin>>();

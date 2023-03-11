@@ -23,7 +23,7 @@ namespace Com.Api.Admin.Controllers;
 /// </summary>
 [ApiController]
 [AllowAnonymous]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class MarketController : ControllerBase
 {
     /// <summary>
@@ -77,7 +77,6 @@ public class MarketController : ControllerBase
     /// <param name="tag">标签</param>
     /// <returns>排序</returns>
     [HttpPost]
-    [Route("AddMarket")]
     public Res<bool> AddMarket(E_MarketType type, long coin_id_base, long coin_id_quote, int places_price, int places_amount, decimal trade_min, decimal trade_min_market_sell, string service_url, string market_email, string market_password, string settlement_email, string settlement_password, float sort, string? tag)
     {
         Res<bool> res = new Res<bool>();
@@ -197,7 +196,6 @@ public class MarketController : ControllerBase
     /// <param name="service_url">服务地址</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("UpdateMarket")]
     public Res<bool> UpdateMarket(long market, bool transaction, int places_price, int places_amount, decimal trade_min, decimal trade_min_market_sell, float sort, string? tag, string service_url)
     {
         Res<bool> res = new Res<bool>();
@@ -233,7 +231,6 @@ public class MarketController : ControllerBase
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetMarket")]
     public Res<List<Market>> GetMarket(string? symbol)
     {
         Res<List<Market>> res = new Res<List<Market>>();

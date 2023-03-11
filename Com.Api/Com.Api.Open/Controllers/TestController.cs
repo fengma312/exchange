@@ -22,7 +22,7 @@ namespace Com.Api.Open.Controllers;
 [ApiController]
 [Authorize]
 [AllowAnonymous]
-[Route("[controller]/[Action]")]
+[Route("[controller]/[action]")]
 public class TestController : ControllerBase
 {
 

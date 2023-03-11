@@ -75,7 +75,6 @@ public class UserController : ControllerBase
     /// </summary>   
     /// <returns></returns>
     [HttpPost]
-    [Route("logout")]
     public Res<bool> Logout()
     {
         return this.service_list.service_user.Logout(this.login.no, this.login.user_id, this.login.app);
@@ -87,7 +86,6 @@ public class UserController : ControllerBase
     /// <param name="phone">手机号</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("ApplyPhone")]
     public Res<bool> ApplyPhone(string phone)
     {
         Res<bool> res = new Res<bool>();
@@ -128,7 +126,6 @@ public class UserController : ControllerBase
     /// <param name="code">短信验证码</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("VerifyPhone")]
     public Res<bool> VerifyPhone(string phone, string code)
     {
         Res<bool> res = new Res<bool>();
@@ -178,7 +175,6 @@ public class UserController : ControllerBase
     /// </summary>   
     /// <returns></returns>
     [HttpPost]
-    [Route("ApplyGoogle")]
     public Res<string?> ApplyGoogle()
     {
         Res<string?> res = new Res<string?>();
@@ -203,7 +199,6 @@ public class UserController : ControllerBase
     /// <param name="code">google验证码</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("VerifyGoogle")]
     public Res<bool> VerifyGoogle(string code)
     {
         Res<bool> res = new Res<bool>();
@@ -294,7 +289,6 @@ public class UserController : ControllerBase
     /// <param name="ip">白名单,多个使用;进行隔离</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("ApplyApiUser")]
     public Res<KeyValuePair<string, string>> ApplyApiUser(string code, string? name, bool transaction, bool withdrawal, string ip)
     {
         Res<KeyValuePair<string, string>> res = new Res<KeyValuePair<string, string>>();
@@ -333,7 +327,6 @@ public class UserController : ControllerBase
     /// <param name="ip">白名单,多个使用;进行隔离</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("UpdateApiUser")]
     public Res<bool> UpdateApiUser(string code, long id, string? name, bool transaction, bool withdrawal, string ip)
     {
         Res<bool> res = new Res<bool>();
@@ -361,7 +354,6 @@ public class UserController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Route("GetApiUser")]
     public Res<List<BaseUsersApi>> GetApiUser()
     {
         Res<List<BaseUsersApi>> res = new Res<List<BaseUsersApi>>();

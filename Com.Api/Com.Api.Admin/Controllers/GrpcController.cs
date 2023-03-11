@@ -23,6 +23,9 @@ public class GrpcController : ControllerBase
     /// 
     /// </summary>
     public readonly ServiceList service_list;
+    /// <summary>
+    /// 
+    /// </summary>
     public string url = "http://localhost:8081";
 
 
@@ -69,7 +72,7 @@ public class GrpcController : ControllerBase
         {
             return await client.SearchSymbol();
         }
-        return null;
+        return null!;
     }
 
     /// <summary>
@@ -97,7 +100,7 @@ public class GrpcController : ControllerBase
         //         }
         //     }
         // }
-        return response;
+        return response!;
     }
 
     /// <summary>
