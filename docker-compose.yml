@@ -21,7 +21,7 @@ services:
 
   comserviceAccount:
     container_name: Com.Service.Account
-    image: fengma312/Com.Service.Account:latest
+    image: fengma312/com.service.account:latest
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Account/Dockerfile
@@ -30,7 +30,7 @@ services:
 
   comserviceTrade:
     container_name: Com.Service.Trade
-    image: fengma312/Com.Service.Trade:latest
+    image: fengma312/com.service.trade:latest
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Trade/Dockerfile
@@ -39,7 +39,7 @@ services:
 
   comserviceMatch:
     container_name: Com.Service.Match
-    image: fengma312/Com.Service.Match:latest
+    image: fengma312/com.service.match:latest
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Match/Dockerfile
