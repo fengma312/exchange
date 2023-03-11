@@ -93,6 +93,11 @@ public class ApiOrderController : ControllerBase
                     client_id = client_id
                 }
             };
+            // string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.trade,symbol);
+            // if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_trade.TryGetValue(url, out var client))
+            // {
+            //     await client.TradePlaceOrder(symbol, user_api.users.user_id, user_api.users.user_name, Request.GetIp(), orders);
+            // }
             return this.service_list.service_order.PlaceOrder(symbol, user_api.users.user_id, user_api.users.user_name, Request.GetIp(), orders);
         };
     }

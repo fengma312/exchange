@@ -69,7 +69,7 @@ public class OrderController : ControllerBase
     /// <param name="client_id">客户自定义订单id</param>
     /// <returns></returns>
     [HttpPost]
-    public Res<List<BaseOrdered>> OrderPlace(string symbol, E_TradeModel trade_model, E_OrderType type, E_OrderSide side, decimal? price, decimal? amount, decimal? total, decimal? trigger_hanging_price, decimal? trigger_cancel_price, string? client_id)
+    public async Task<Res<List<BaseOrdered>>> OrderPlace(string symbol, E_TradeModel trade_model, E_OrderType type, E_OrderSide side, decimal? price, decimal? amount, decimal? total, decimal? trigger_hanging_price, decimal? trigger_cancel_price, string? client_id)
     {
         Res<List<BaseOrdered>> result = new Res<List<BaseOrdered>>();
         Users? users = this.service_list.service_user.GetUser(login.user_id);
@@ -101,7 +101,16 @@ public class OrderController : ControllerBase
                 client_id = client_id
             }
         };
-        return this.service_list.service_order.PlaceOrder(symbol, users.user_id, users.user_name, Request.GetIp(), orders);
+        Market? info = this.service_list.service_market.GetMarketBySymbol(symbol);
+        if (info != null)
+        {
+            string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.trade, info.market_id);
+            if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_trade.TryGetValue(url, out var client))
+            {
+                return await client.TradePlaceOrder(symbol, users.user_id, users.user_name, Request.GetIp(), orders);
+            }
+        }
+        return result;
     }
 
     /// <summary>
@@ -110,7 +119,7 @@ public class OrderController : ControllerBase
     /// <param name="data">挂单数据</param>
     /// <returns></returns>
     [HttpPost]
-    public Res<List<BaseOrdered>> OrderPlaces(CallOrder data)
+    public async Task<Res<List<BaseOrdered>>> OrderPlaces(CallOrder data)
     {
         Res<List<BaseOrdered>> result = new Res<List<BaseOrdered>>();
         Users? users = this.service_list.service_user.GetUser(login.user_id);
@@ -126,7 +135,16 @@ public class OrderController : ControllerBase
             result.msg = "用户禁止交易";
             return result;
         }
-        return this.service_list.service_order.PlaceOrder(data.symbol, login.user_id, login.user_name, Request.GetIp(), data.orders);
+        Market? info = this.service_list.service_market.GetMarketBySymbol(data.symbol);
+        if (info != null)
+        {
+            string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.trade, info.market_id);
+            if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_trade.TryGetValue(url, out var client))
+            {
+                return await client.TradePlaceOrder(data.symbol, login.user_id, login.user_name, Request.GetIp(), data.orders);
+            }
+        }
+        return result;
     }
 
     /// <summary>
