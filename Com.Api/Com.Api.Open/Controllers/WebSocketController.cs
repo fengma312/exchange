@@ -313,7 +313,7 @@ public class WebSocketController : ControllerBase
                                 key_depth = E_WebsockerChannel.books200.ToString();
                             }
                             RedisValue rv = ServiceFactory.instance.redis.HashGet(this.service_list.service_key.GetRedisDepth(market.market_id), key_depth);
-                            ResDepth? depth = JsonConvert.DeserializeObject<ResDepth>(rv);
+                            ResDepth? depth = JsonConvert.DeserializeObject<ResDepth>(rv!);
                             if (depth != null)
                             {
                                 ResWebsocker<ResDepth> depth_res = new ResWebsocker<ResDepth>();
