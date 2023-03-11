@@ -84,7 +84,7 @@ public class TestController : ControllerBase
         {
             cluster_id = 1,
             type = E_ServiceType.admin,
-            ip = "localhost",
+            ip = "http://localhost",
             port = 8050,
             mark = "0123456789",
             remark = "管理api"
@@ -93,7 +93,7 @@ public class TestController : ControllerBase
         {
             cluster_id = 2,
             type = E_ServiceType.openapi,
-            ip = "localhost",
+            ip = "http://localhost",
             port = 8040,
             mark = "0123456789",
             remark = "公开api"
@@ -102,7 +102,7 @@ public class TestController : ControllerBase
         {
             cluster_id = 3,
             type = E_ServiceType.account,
-            ip = "localhost",
+            ip = "http://localhost",
             port = 8010,
             mark = "0123456789",
             remark = "账户服务"
@@ -111,7 +111,7 @@ public class TestController : ControllerBase
         {
             cluster_id = 4,
             type = E_ServiceType.trade,
-            ip = "localhost",
+            ip = "http://localhost",
             port = 8030,
             mark = "0123456789",
             remark = "交易服务"
@@ -120,7 +120,7 @@ public class TestController : ControllerBase
         {
             cluster_id = 5,
             type = E_ServiceType.match,
-            ip = "localhost",
+            ip = "http://localhost",
             port = 8020,
             mark = "0123456789",
             remark = "撮合服务"
