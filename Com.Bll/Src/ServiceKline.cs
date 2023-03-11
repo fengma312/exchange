@@ -107,7 +107,7 @@ public class ServiceKline
     /// <param name="end">结束时间</param>
     public Dictionary<E_KlineType, List<Kline>> DBtoRedised(long market, string symbol, DateTimeOffset end)
     {
-        return null;
+        return null!;
         // Dictionary<E_KlineType, List<Kline>> klines = SyncKlines(market, symbol, end);
         // DbSaveRedis(market, klines);
         // return klines;

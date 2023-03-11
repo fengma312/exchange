@@ -41,9 +41,10 @@ public class CoinController : ControllerBase
     /// <param name="configuration">配置接口</param>
     /// <param name="environment">环境接口</param>
     /// <param name="logger">日志接口</param>
-    public CoinController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, DbContextEF db, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
+    public CoinController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
     {
         this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
+        using DbContextEF db = db_factory.CreateDbContext();
         this.db = db;
     }
 

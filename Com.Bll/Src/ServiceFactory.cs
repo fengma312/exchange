@@ -182,7 +182,7 @@ public class ServiceFactory
     {
         try
         {
-            string connect = this.service_base.configuration.GetConnectionString("ElasticUrl");
+            string connect = this.service_base.configuration.GetConnectionString("ElasticUrl")!;
             if (!string.IsNullOrWhiteSpace(connect))
             {
                 var node = new Uri(connect);
