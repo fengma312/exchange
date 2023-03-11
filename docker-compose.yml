@@ -25,6 +25,8 @@ services:
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Account/Dockerfile
+    ports:
+      - "8010:8010"
     depends_on:
       - comapiadmin
 
@@ -34,6 +36,8 @@ services:
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Trade/Dockerfile
+    ports:
+      - "8030:8030"
     depends_on:
       - comapiadmin
 
@@ -43,5 +47,7 @@ services:
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Match/Dockerfile
+    ports:
+      - "8020:8020"
     depends_on:
       - comapiadmin
