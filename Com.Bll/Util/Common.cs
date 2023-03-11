@@ -88,7 +88,7 @@ public class Common
     /// <returns></returns>
     public bool VerificationCode(string no, string code)
     {
-        string verify = ServiceFactory.instance.redis.StringGet(this.service_key.GetRedisVerificationCode(no));
+        string? verify = ServiceFactory.instance.redis.StringGet(this.service_key.GetRedisVerificationCode(no));
         if (verify != null && verify.ToLower() == code.ToLower())
         {
             return true;

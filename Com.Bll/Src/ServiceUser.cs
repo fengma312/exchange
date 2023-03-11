@@ -109,12 +109,12 @@ public class ServiceUser
                 // new Claim("aud",this.service_base.configuration["Jwt:Audience"]),
                 // new Claim("sub","aaa"),
             };
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.service_base.configuration["Jwt:SecretKey"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.service_base.configuration["Jwt:SecretKey"]!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
             issuer: this.service_base.configuration["Jwt:Issuer"],// 签发者
             audience: this.service_base.configuration["Jwt:Audience"],// 接收者
-            expires: DateTimeOffset.UtcNow.AddMinutes(double.Parse(this.service_base.configuration["Jwt:Expires"])).LocalDateTime,// 过期时间
+            expires: DateTimeOffset.UtcNow.AddMinutes(double.Parse(this.service_base.configuration["Jwt:Expires"]!)).LocalDateTime,// 过期时间
             claims: claims,
             signingCredentials: creds);// 令牌
         return new JwtSecurityTokenHandler().WriteToken(token);

@@ -155,7 +155,7 @@ public class MatchAssist
             {
                 return true;
             }
-            Processing? process = JsonConvert.DeserializeObject<Processing>(rv);
+            Processing? process = JsonConvert.DeserializeObject<Processing>(rv!);
             if (process == null || process.match == false)
             {
                 ServiceFactory.instance.redis.HashDelete(this.service_key.GetRedisProcess(), deals.no);
