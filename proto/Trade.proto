@@ -5,39 +5,41 @@ option csharp_namespace = "ServiceTradeGrpc";
 
 service TradeGrpc {  
   // 1:一元调用:判断程序/网络是否启动
-  rpc Activity (google.protobuf.Empty) returns (google.protobuf.Empty);
-  // 2:一元调用:管理撮合交易对(开启,停止)
-  rpc MarketManage(MarketManageReq) returns(MarketManageRes);
-  // 3:一元调用:交易对配置更改
-  rpc MarketConfig(MarketConfigReq) returns(MarketConfigRes);
-  // 4:接收新订单
-  rpc OrderReceive (stream OrderReceiveReq) returns (OrderReceiveRes);
+  rpc TradeActive (google.protobuf.Empty) returns (google.protobuf.Empty);
+  // 2:一元调用:分配撮合交易对
+  rpc TradeLoad (TradeLoadReq) returns (TradeLoadRes);
+  // 3:一元调用:开启交易服务
+  rpc TradeStart(TradeStartReq) returns(TradeStartRes);
+  // 4:一元调用:停止交易服务
+  rpc TradeStop(TradeStopReq) returns(TradeStopRes);
+  // 5:一元调用:交易对配置更改
+  rpc TradeChange(TradeChangeReq) returns(TradeChangeRes);  
 }
 
-message KeyValueGrpc{
-  int64 key=1;
-  bool value=2;
-  string msg=3;
+message TradeLoadReq{
+  repeated int64 market_id=1;
+}
+message TradeLoadRes{
+  bool success=1; 
 }
 
-message MarketManageReq{
-  repeated KeyValueGrpc market=1; 
+message TradeStartReq{
+  repeated int64 market_id=1; 
 }
-message MarketManageRes{
-  repeated KeyValueGrpc market=1;
-}
-
-message MarketConfigReq{
-  repeated KeyValueGrpc market=1; 
-}
-message MarketConfigRes{
-  repeated KeyValueGrpc market=1; 
+message TradeStartRes{
+  bool success=1; 
 }
 
-message OrderReceiveReq{
-
+message TradeStopReq{
+  repeated int64 market_id=1; 
+}
+message TradeStopRes{
+  bool success=1; 
 }
 
-message OrderReceiveRes{
-
+message TradeChangeReq{
+  repeated int64 market_id=1; 
+}
+message TradeChangeRes{
+  bool success=1; 
 }
