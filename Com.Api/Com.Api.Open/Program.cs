@@ -152,7 +152,7 @@ builder.Services.AddSwaggerGen(options =>
             }
         }, new List<string>()
     }});
-    options.OperationFilter<MyHeaderFilter>();
+    // options.OperationFilter<MyHeaderFilter>();
 });
 builder.Services.AddHostedService<MainService>();
 builder.Host.ConfigureLogging((context, logging) =>
