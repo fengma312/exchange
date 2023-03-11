@@ -37,14 +37,15 @@ public class WalletController : ControllerBase
             return this.service_list.service_user.GetLoginUser(User);
         }
     }
-
-
-
     /// <summary>
     /// Service:基础服务
     /// </summary>
     public readonly ServiceBase service_base;
+    /// <summary>
+    /// Service:基础服务
+    /// </summary>
     public readonly ServiceList service_list;
+
     /// <summary>
     /// 初始化
     /// </summary>
@@ -53,10 +54,12 @@ public class WalletController : ControllerBase
     /// <param name="configuration">配置接口</param>
     /// <param name="environment">环境接口</param>
     /// <param name="logger">日志接口</param>
-    public WalletController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, DbContextEF db, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
+    public WalletController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
     {
         this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
         service_list = new ServiceList(service_base);
+        using DbContextEF db = db_factory.CreateDbContext();
+        this.db = db;
     }
 
     /// <summary>

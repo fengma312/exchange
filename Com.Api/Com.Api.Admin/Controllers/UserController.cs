@@ -29,6 +29,9 @@ public class UserController : ControllerBase
     /// Service:基础服务
     /// </summary>
     public readonly ServiceBase service_base;
+    /// <summary>
+    /// Service:服务列表
+    /// </summary>
     public readonly ServiceList service_list;
 
     /// <summary>

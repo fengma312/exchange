@@ -26,18 +26,11 @@ namespace Com.Api.Admin.Controllers;
 [Route("[controller]/[action]")]
 public class MarketController : ControllerBase
 {
-    /// <summary>
-    /// 日志接口
-    /// </summary>
-    private readonly ILogger<MarketController> logger;
-    /// <summary>
-    /// 配置接口
-    /// </summary>
-    private readonly IConfiguration config;
+
     /// <summary>
     /// 数据库
     /// </summary>
-    public DbContextEF db = null!;
+    public readonly DbContextEF db;
 
     /// <summary>
     /// Service:基础服务
