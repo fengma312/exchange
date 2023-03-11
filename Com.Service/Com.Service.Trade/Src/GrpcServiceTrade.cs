@@ -1,8 +1,10 @@
 
+using Com.Models.Base;
 using Com.Models.Db;
 using Com.Models.Enum;
 using Com.Service.Trade.Models;
 using Grpc.Core;
+using Newtonsoft.Json;
 using ServiceTradeGrpc;
 
 namespace Com.Service.Trade;
@@ -113,4 +115,19 @@ public class GrpcServiceTrade : TradeGrpc.TradeGrpcBase
         return await Task.FromResult(res);
     }
 
+    /// <summary>
+    /// 6:一元调用:挂单
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public override async Task<TradePlaceOrderRes> TradePlaceOrder(TradePlaceOrderReq request, ServerCallContext context)
+    {
+        Res<List<BaseOrdered>> response = FactoryTrade.instance.service_list.service_order.PlaceOrder(request.Symbol, request.Uid, request.UserName, request.Ip, JsonConvert.DeserializeObject<List<BaseOrder>>(request.Orders)!);
+        TradePlaceOrderRes res = new TradePlaceOrderRes()
+        {
+            Json = JsonConvert.SerializeObject(response)
+        };
+        return await Task.FromResult(res);
+    }
 }

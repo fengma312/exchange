@@ -13,7 +13,9 @@ service TradeGrpc {
   // 4:一元调用:停止交易服务
   rpc TradeStop(TradeStopReq) returns(TradeStopRes);
   // 5:一元调用:交易对配置更改
-  rpc TradeChange(TradeChangeReq) returns(TradeChangeRes);  
+  rpc TradeChange(TradeChangeReq) returns(TradeChangeRes);
+  // 6:一元调用:挂单
+  rpc TradePlaceOrder(TradePlaceOrderReq) returns(TradePlaceOrderRes);  
 }
 
 message TradeLoadReq{
@@ -42,4 +44,15 @@ message TradeChangeReq{
 }
 message TradeChangeRes{
   bool success=1; 
+}
+
+message TradePlaceOrderReq{
+  string symbol=1; 
+  int64 uid=2;
+  string user_name=3;
+  string ip=4;
+  string orders=5;
+}
+message TradePlaceOrderRes{
+  string json=1; 
 }

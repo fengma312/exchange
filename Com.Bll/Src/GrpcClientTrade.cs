@@ -1,4 +1,6 @@
+using Com.Models.Base;
 using Grpc.Net.Client;
+using Newtonsoft.Json;
 using ServiceTradeGrpc;
 
 namespace Com.Bll;
@@ -20,7 +22,7 @@ public class GrpcClientTrade
     /// grpc客户端对象
     /// </summary>
     public readonly TradeGrpc.TradeGrpcClient client;
-    
+
     /// <summary>
     /// 初始化
     /// </summary>
@@ -100,6 +102,25 @@ public class GrpcClientTrade
         req.MarketId.AddRange(market_id);
         TradeChangeRes res = await client.TradeChangeAsync(req);
         return res.Success;
+    }
+
+    /// <summary>
+    /// 6:一元调用:挂单
+    /// </summary>
+    /// <param name="market_id"></param>
+    /// <returns></returns>
+    public async Task<Res<List<BaseOrdered>>> TradePlaceOrder(string symbol, long uid, string user_name, string ip, List<BaseOrder> orders)
+    {
+        TradePlaceOrderReq req = new TradePlaceOrderReq()
+        {
+            Symbol = symbol,
+            Uid = uid,
+            UserName = user_name,
+            Ip = ip,
+            Orders = JsonConvert.SerializeObject(orders)
+        };
+        TradePlaceOrderRes res = await client.TradePlaceOrderAsync(req);
+        return JsonConvert.DeserializeObject<Res<List<BaseOrdered>>>(res.Json)!;
     }
 
     /// <summary>
