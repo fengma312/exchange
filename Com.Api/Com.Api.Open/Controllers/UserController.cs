@@ -61,13 +61,13 @@ public class UserController : ControllerBase
     /// <param name="logger">日志接口</param>
     public UserController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
     {
+        this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
+        this.service_list = new ServiceList(service_base);
+        common = new Common(service_base);
         using (DbContextEF db = db_factory.CreateDbContext())
         {
             this.db = db;
         }
-        this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
-        this.service_list = new ServiceList(service_base);
-        common = new Common(service_base);
     }
 
     /// <summary>

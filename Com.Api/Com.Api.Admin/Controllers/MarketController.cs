@@ -54,8 +54,9 @@ public class MarketController : ControllerBase
     /// <param name="logger">日志接口</param>
     public MarketController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
     {
-        this.db = db;
         this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
+        using DbContextEF db = db_factory.CreateDbContext();
+        this.db = db;
     }
 
     /// <summary>
