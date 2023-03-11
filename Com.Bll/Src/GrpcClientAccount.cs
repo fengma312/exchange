@@ -1,4 +1,6 @@
+using Com.Models.Db;
 using Grpc.Net.Client;
+using Newtonsoft.Json;
 using ServiceAccountGrpc;
 
 namespace Com.Bll;
@@ -66,11 +68,12 @@ public class GrpcClientAccount
     /// </summary>
     /// <param name="users_id"></param>
     /// <returns></returns>
-    public async Task<GetUserRes> GetUser(List<long> users_id)
+    public async Task<List<Users>?> GetUser(List<long> users_id)
     {
         GetUserReq req = new GetUserReq();
         req.UserId.AddRange(users_id);
-        return await client.GetUserAsync(req);
+        GetUserRes res = await client.GetUserAsync(req);
+        return JsonConvert.DeserializeObject<List<Users>>(res.Users);
     }
 
     /// <summary>
