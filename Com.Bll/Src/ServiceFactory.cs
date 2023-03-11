@@ -34,7 +34,7 @@ public class ServiceFactory
     /// <summary>
     /// grpc 客户端
     /// </summary>
-    public ServiceGrpcClient service_grpc_client = null!;
+    public GrpcClientFactory service_grpc_client = null!;
 
     /// <summary>
     /// redis连接对象
@@ -86,7 +86,7 @@ public class ServiceFactory
     {
         this.service_base = service_base;
         this.service_key = new ServiceKey(service_base);
-        this.service_grpc_client = new ServiceGrpcClient(service_base);
+        this.service_grpc_client = new GrpcClientFactory(service_base);
     }
 
     /// <summary>

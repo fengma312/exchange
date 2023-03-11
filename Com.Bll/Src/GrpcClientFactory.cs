@@ -10,7 +10,7 @@ namespace Com.Bll;
 /// <summary>
 /// Grpc客户端:账户服务
 /// </summary>
-public class ServiceGrpcClient
+public class GrpcClientFactory
 {
     /// <summary>
     /// 基础服务
@@ -20,16 +20,24 @@ public class ServiceGrpcClient
     /// Service:服务列表
     /// </summary>
     public readonly ServiceCluster service_cluster;
-
+    /// <summary>
+    /// Service:服务列表
+    /// </summary>
     public readonly ConcurrentDictionary<string, GrpcClientAccount> grcp_client_account = new ConcurrentDictionary<string, GrpcClientAccount>();
+    /// <summary>
+    /// Service:服务列表
+    /// </summary>
     public readonly ConcurrentDictionary<string, GrpcClientTrade> grcp_client_trade = new ConcurrentDictionary<string, GrpcClientTrade>();
+    /// <summary>
+    /// Service:服务列表
+    /// </summary>
     public readonly ConcurrentDictionary<string, GrpcClientMatch> grcp_client_match = new ConcurrentDictionary<string, GrpcClientMatch>();
 
     /// <summary>
     /// 初始化
     /// </summary>
     /// <param name="service_base">基础服务</param>
-    public ServiceGrpcClient(ServiceBase service_base)
+    public GrpcClientFactory(ServiceBase service_base)
     {
         this.service_base = service_base;
         this.service_cluster = new ServiceCluster(service_base);

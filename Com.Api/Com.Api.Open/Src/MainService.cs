@@ -53,7 +53,8 @@ public class MainService : BackgroundService
             ServiceFactory.instance.InitRedis();
             ServiceFactory.instance.InitSnowflake(E_ServiceType.openapi);
             ServiceFactory.instance.InitMq();
-
+            ServiceFactory.instance.service_grpc_client.Init(E_ServiceType.account);
+            ServiceFactory.instance.service_grpc_client.Init(E_ServiceType.trade);
             // ServiceMinio service_minio = new ServiceMinio(this.constant.config, this.constant.logger);
             // await service_minio.MakeBucket(FactoryService.instance.GetMinioRealname());
 
