@@ -153,7 +153,7 @@ public class OrderController : ControllerBase
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpPost]
-    public Res<bool> OrderCancelByUserId(string symbol)
+    public async Task<Res<bool>> OrderCancelByUserId(string symbol)
     {
         Res<bool> result = new Res<bool>();
         Users? users = this.service_list.service_user.GetUser(login.user_id);
@@ -169,7 +169,16 @@ public class OrderController : ControllerBase
             result.msg = "用户禁止交易";
             return result;
         }
-        return this.service_list.service_order.CancelOrder(symbol, users.user_id, 2, new List<long>());
+        Market? info = this.service_list.service_market.GetMarketBySymbol(symbol);
+        if (info != null)
+        {
+            string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.trade, info.market_id);
+            if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_trade.TryGetValue(url, out var client))
+            {
+                return await client.TradeCancelOrder(symbol, users.user_id, 2, new List<long>());
+            }
+        }
+        return result;
     }
 
     /// <summary>
@@ -178,7 +187,7 @@ public class OrderController : ControllerBase
     /// <param name="model">订单id key:symbol,data:订单id数组</param>
     /// <returns></returns>
     [HttpPost]
-    public Res<bool> OrderCancelByOrderid(KeyList<string, long> model)
+    public async Task<Res<bool>> OrderCancelByOrderid(KeyList<string, long> model)
     {
         Res<bool> result = new Res<bool>();
         Users? users = this.service_list.service_user.GetUser(login.user_id);
@@ -194,8 +203,16 @@ public class OrderController : ControllerBase
             result.msg = "用户禁止交易";
             return result;
         }
-        return this.service_list.service_order.CancelOrder(model.key, users.user_id, 3, model.data);
-
+        Market? info = this.service_list.service_market.GetMarketBySymbol(model.key);
+        if (info != null)
+        {
+            string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.trade, info.market_id);
+            if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_trade.TryGetValue(url, out var client))
+            {
+                return await client.TradeCancelOrder(model.key, users.user_id, 3, model.data);
+            }
+        }
+        return result;
     }
 
     // /// <summary>

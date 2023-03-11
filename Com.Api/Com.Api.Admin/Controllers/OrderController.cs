@@ -22,10 +22,6 @@ namespace Com.Api.Admin.Controllers;
 [ApiController]
 public class OrderController : ControllerBase
 {
-
-
-
-
     /// <summary>
     /// Service:基础服务
     /// </summary>
@@ -33,8 +29,9 @@ public class OrderController : ControllerBase
     /// <summary>
     /// 服务列表
     /// </summary>
-    
+
     public readonly ServiceList service_list;
+
     /// <summary>
     /// 初始化
     /// </summary>
@@ -48,8 +45,6 @@ public class OrderController : ControllerBase
         this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
         service_list = new ServiceList(service_base);
     }
-
-
 
     /// <summary>
     /// 订单查询
@@ -70,17 +65,25 @@ public class OrderController : ControllerBase
         return this.service_list.service_order.GetOrder(symbol: symbol, user_name: user_name, state: state, order_id: order_id, start: start, end: end, skip: skip, take: take);
     }
 
-
     /// <summary>
     /// 按交易对全部撤单
     /// </summary>
     /// <param name="symbol">交易对</param>
     /// <returns></returns>
     [HttpPost]
-    public Res<bool> OrderCancelBySymbol(string symbol)
+    public async Task<Res<bool>> OrderCancelBySymbol(string symbol)
     {
         Res<bool> result = new Res<bool>();
-        return this.service_list.service_order.CancelOrder(symbol, 0, 1, new List<long>());
+        Market? info = this.service_list.service_market.GetMarketBySymbol(symbol);
+        if (info != null)
+        {
+            string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.trade, info.market_id);
+            if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_trade.TryGetValue(url, out var client))
+            {
+                return await client.TradeCancelOrder(symbol, 0, 1, new List<long>());
+            }
+        }
+        return result;
     }
 
 }
