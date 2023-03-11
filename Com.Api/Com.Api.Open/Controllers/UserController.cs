@@ -81,6 +81,26 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
+    /// 获取登录用户信息
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<Res<BaseUser>> GetUserInfo()
+    {
+        Res<BaseUser> res = new Res<BaseUser>();
+        string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.account, this.login.user_id);
+        if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_account.TryGetValue(url, out var client))
+        {
+            List<Users>? users = await client.GetUser(new List<long>() { this.login.user_id });
+            if (users != null && users.Count > 0)
+            {
+                res.data = users.First();
+            }
+        }
+        return res;
+    }
+
+    /// <summary>
     /// 申请手机验证
     /// </summary>
     /// <param name="phone">手机号</param>

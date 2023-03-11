@@ -218,7 +218,7 @@ public class ServiceUser
     /// <param name="app">登录终端</param>
     /// <param name="ip">登录ip</param>
     /// <returns></returns>
-    public Res<BaseUser> Login(string email, string password, E_App app, string ip)
+    public async Task<Res<BaseUser>> Login(string email, string password, E_App app, string ip)
     {
         Res<BaseUser> res = new Res<BaseUser>();
 
@@ -243,6 +243,12 @@ public class ServiceUser
                 res.code = E_Res_Code.ok;
                 res.data = user;
                 res.data.token = GenerateToken(no, user, app);
+                string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.account, user.user_id);
+                if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_account.TryGetValue(url, out var client))
+                {
+                    List<Users>? users = await client.GetUser(new List<long>() { user.user_id });
+                    await client.LoadUser(new List<long>() { user.user_id });
+                }
                 return res;
             }
         }

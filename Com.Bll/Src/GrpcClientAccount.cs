@@ -17,11 +17,11 @@ public class GrpcClientAccount
     /// <summary>
     /// grpc管道
     /// </summary>
-    public readonly GrpcChannel channel;
+    public GrpcChannel channel;
     /// <summary>
     /// grpc客户端对象
     /// </summary>
-    public readonly AccountGrpc.AccountGrpcClient client;
+    public AccountGrpc.AccountGrpcClient client;
 
     /// <summary>
     /// 初始化
@@ -30,8 +30,7 @@ public class GrpcClientAccount
     public GrpcClientAccount(string url)
     {
         this.url = url;
-        this.channel = GrpcChannel.ForAddress(this.url);
-        this.client = new AccountGrpc.AccountGrpcClient(channel);
+
     }
 
     /// <summary>
@@ -61,7 +60,10 @@ public class GrpcClientAccount
     {
         LoadUserReq req = new LoadUserReq();
         req.UserId.AddRange(users_id);
+        this.channel = GrpcChannel.ForAddress(this.url);
+        this.client = new AccountGrpc.AccountGrpcClient(channel);
         await client.LoadUserAsync(req);
+        await channel.ShutdownAsync();
     }
 
     /// <summary>
@@ -73,7 +75,10 @@ public class GrpcClientAccount
     {
         GetUserReq req = new GetUserReq();
         req.UserId.AddRange(users_id);
+        this.channel = GrpcChannel.ForAddress(this.url);
+        this.client = new AccountGrpc.AccountGrpcClient(channel);
         GetUserRes res = await client.GetUserAsync(req);
+        await channel.ShutdownAsync();
         return JsonConvert.DeserializeObject<List<Users>>(res.Users);
     }
 
