@@ -19,7 +19,7 @@ namespace Com.Api.Open.Controllers;
 /// </summary>
 [TypeFilter(typeof(VerificationFilters))]
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("[controller]/[action]")]
 public class ApiOrderController : ControllerBase
 {
 
