@@ -132,7 +132,6 @@ public class ServiceUser
     public Res<bool> Register(string email, string password, string code, string? recommend, string ip)
     {
         Res<bool> res = new Res<bool>();
-
         res.code = E_Res_Code.fail;
         res.data = false;
         if (!Regex.IsMatch(email, @"^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$"))
@@ -159,52 +158,49 @@ public class ServiceUser
             return res;
         }
         (string public_key, string private_key) key_res = Encryption.GetRsaKey();
-        //using (var scope = ServiceFactory.instance.constant.provider.CreateScope())
+        using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
         {
-            using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
+            if (db.Users.Any(P => P.email == email))
             {
-                if (db.Users.Any(P => P.email == email))
-                {
-                    res.code = E_Res_Code.email_repeat;
-                    res.msg = "邮箱已重复";
-                    return res;
-                }
-                Vip? vip0 = db.Vip.SingleOrDefault(P => P.name == "vip0");
-                string user_name = ServiceFactory.instance.random.NextInt64(10_001_000, 99_999_999).ToString();
-                while (db.Users.Any(P => P.user_name == user_name))
-                {
-                    user_name = ServiceFactory.instance.random.NextInt64(10_001_000, 99_999_999).ToString();
-                }
-                Users settlement_btc_usdt = new Users()
-                {
-                    user_id = ServiceFactory.instance.worker.NextId(),
-                    user_name = user_name,
-                    password = Encryption.SHA256Encrypt(password),
-                    email = email,
-                    phone = null,
-                    verify_email = true,
-                    verify_phone = false,
-                    verify_google = false,
-                    verify_realname = E_Verify.verify_not,
-                    realname_object_name = null,
-                    disabled = false,
-                    transaction = true,
-                    withdrawal = false,
-                    user_type = E_UserType.general,
-                    recommend = recommend,
-                    vip = vip0?.vip_id ?? 0,
-                    google_key = null,
-                    public_key = key_res.public_key,
-                    private_key = key_res.private_key,
-                };
-                db.Users.Add(settlement_btc_usdt);
-                if (db.SaveChanges() > 0)
-                {
+                res.code = E_Res_Code.email_repeat;
+                res.msg = "邮箱已重复";
+                return res;
+            }
+            Vip? vip0 = db.Vip.SingleOrDefault(P => P.name == "vip0");
+            string user_name = ServiceFactory.instance.random.NextInt64(10_001_000, 99_999_999).ToString();
+            while (db.Users.Any(P => P.user_name == user_name))
+            {
+                user_name = ServiceFactory.instance.random.NextInt64(10_001_000, 99_999_999).ToString();
+            }
+            Users settlement_btc_usdt = new Users()
+            {
+                user_id = ServiceFactory.instance.worker.NextId(),
+                user_name = user_name,
+                password = Encryption.SHA256Encrypt(password),
+                email = email,
+                phone = null,
+                verify_email = true,
+                verify_phone = false,
+                verify_google = false,
+                verify_realname = E_Verify.verify_not,
+                realname_object_name = null,
+                disabled = false,
+                transaction = true,
+                withdrawal = false,
+                user_type = E_UserType.general,
+                recommend = recommend,
+                vip = vip0?.vip_id ?? 0,
+                google_key = null,
+                public_key = key_res.public_key,
+                private_key = key_res.private_key,
+            };
+            db.Users.Add(settlement_btc_usdt);
+            if (db.SaveChanges() > 0)
+            {
 
-                    res.code = E_Res_Code.ok;
-                    res.data = true;
-                    return res;
-                }
+                res.code = E_Res_Code.ok;
+                res.data = true;
+                return res;
             }
         }
         return res;
@@ -221,36 +217,30 @@ public class ServiceUser
     public async Task<Res<BaseUser>> Login(string email, string password, E_App app, string ip)
     {
         Res<BaseUser> res = new Res<BaseUser>();
-
         res.code = E_Res_Code.fail;
-        //using (var scope = ServiceFactory.instance.constant.provider.CreateScope())
+        using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
         {
-            using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
+            var user = db.Users.FirstOrDefault(P => P.disabled == false && (P.phone == email || P.email == email) && P.password == Encryption.SHA256Encrypt(password));
+            if (user == null)
             {
-                var user = db.Users.FirstOrDefault(P => P.disabled == false && (P.phone == email || P.email == email) && P.password == Encryption.SHA256Encrypt(password));
-                if (user == null)
-                {
 
-                    res.code = E_Res_Code.name_password_error;
-                    res.msg = "账户或密码错误,登陆失败";
-                    return res;
-                }
-                ServiceFactory.instance.redis.KeyDelete(this.service_key.GetRedisVerificationCode(email));
-                long no = ServiceFactory.instance.worker.NextId();
-                ServiceFactory.instance.redis.HashDelete(this.service_key.GetRedisBlacklist(), $"{user.user_id}_{app}_*");
-                ServiceFactory.instance.redis.StringSet(this.service_key.GetRedisOnline(no), $"{user.user_id}_{user.user_name}_{app}", new TimeSpan(0, int.Parse(this.service_base.configuration["Jwt:Expires"]!), 0));
-
-                res.code = E_Res_Code.ok;
-                res.data = user;
-                res.data.token = GenerateToken(no, user, app);
-                string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.account, user.user_id);
-                if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_account.TryGetValue(url, out var client))
-                {
-                    List<Users>? users = await client.GetUser(new List<long>() { user.user_id });
-                    await client.LoadUser(new List<long>() { user.user_id });
-                }
+                res.code = E_Res_Code.name_password_error;
+                res.msg = "账户或密码错误,登陆失败";
                 return res;
             }
+            ServiceFactory.instance.redis.KeyDelete(this.service_key.GetRedisVerificationCode(email));
+            long no = ServiceFactory.instance.worker.NextId();
+            ServiceFactory.instance.redis.HashDelete(this.service_key.GetRedisBlacklist(), $"{user.user_id}_{app}_*");
+            ServiceFactory.instance.redis.StringSet(this.service_key.GetRedisOnline(no), $"{user.user_id}_{user.user_name}_{app}", new TimeSpan(0, int.Parse(this.service_base.configuration["Jwt:Expires"]!), 0));
+            res.code = E_Res_Code.ok;
+            res.data = user;
+            res.data.token = GenerateToken(no, user, app);
+            string? url = ServiceFactory.instance.service_grpc_client.service_cluster.GetClusterUrl(E_ServiceType.account, user.user_id);
+            if (!string.IsNullOrWhiteSpace(url) && ServiceFactory.instance.service_grpc_client.grcp_client_account.TryGetValue(url, out var client))
+            {
+                await client.LoadUser(new List<long>() { user.user_id });
+            }
+            return res;
         }
     }
 

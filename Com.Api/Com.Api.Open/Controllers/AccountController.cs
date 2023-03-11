@@ -78,9 +78,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     public async Task<Res<BaseUser>> Login(string email, string password, E_App app)
     {
-        Res<BaseUser> res = await this.service_list.service_user.Login(email, password, app, Request.GetIp());
-
-        return res;
+        return await this.service_list.service_user.Login(email, password, app, Request.GetIp());        
     }
 
     /// <summary>

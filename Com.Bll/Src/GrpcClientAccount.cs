@@ -61,10 +61,7 @@ public class GrpcClientAccount
     {
         LoadUserReq req = new LoadUserReq();
         req.UserId.AddRange(users_id);
-        // this.channel = GrpcChannel.ForAddress(this.url);
-        // this.client = new AccountGrpc.AccountGrpcClient(channel);
         await client.LoadUserAsync(req);
-        // await channel.ShutdownAsync();
     }
 
     /// <summary>
@@ -76,10 +73,7 @@ public class GrpcClientAccount
     {
         GetUserReq req = new GetUserReq();
         req.UserId.AddRange(users_id);
-        // this.channel = GrpcChannel.ForAddress(this.url);
-        // this.client = new AccountGrpc.AccountGrpcClient(channel);
         GetUserRes res = await client.GetUserAsync(req);
-        // await channel.ShutdownAsync();
         return JsonConvert.DeserializeObject<List<Users>>(res.Users);
     }
 
