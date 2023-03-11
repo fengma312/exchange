@@ -124,6 +124,24 @@ public class GrpcClientTrade
     }
 
     /// <summary>
+    /// 7:一元调用:取消挂单
+    /// </summary>
+    /// <param name="market_id"></param>
+    /// <returns></returns>
+    public async Task<Res<bool>> TradeCancelOrder(string symbol, long uid, int type, List<long> orders)
+    {
+        TradeCancelOrderReq req = new TradeCancelOrderReq()
+        {
+            Symbol = symbol,
+            Uid = uid,
+            Type = type,
+            Orders = JsonConvert.SerializeObject(orders)
+        };
+        TradeCancelOrderRes res = await client.TradeCancelOrderAsync(req);
+        return JsonConvert.DeserializeObject<Res<bool>>(res.Json)!;
+    }
+
+    /// <summary>
     /// 关闭
     /// </summary>
     /// <returns></returns>

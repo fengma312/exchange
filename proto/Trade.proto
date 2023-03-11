@@ -16,6 +16,8 @@ service TradeGrpc {
   rpc TradeChange(TradeChangeReq) returns(TradeChangeRes);
   // 6:一元调用:挂单
   rpc TradePlaceOrder(TradePlaceOrderReq) returns(TradePlaceOrderRes);  
+  // 7:一元调用:取消挂单
+  rpc TradeCancelOrder(TradeCancelOrderReq) returns(TradeCancelOrderRes);  
 }
 
 message TradeLoadReq{
@@ -54,5 +56,15 @@ message TradePlaceOrderReq{
   string orders=5;
 }
 message TradePlaceOrderRes{
+  string json=1; 
+}
+
+message TradeCancelOrderReq{
+  string symbol=1; 
+  int64 uid=2;
+  int32 type=3;
+  string orders=4;
+}
+message TradeCancelOrderRes{
   string json=1; 
 }

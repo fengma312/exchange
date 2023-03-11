@@ -130,4 +130,21 @@ public class GrpcServiceTrade : TradeGrpc.TradeGrpcBase
         };
         return await Task.FromResult(res);
     }
+
+    /// <summary>
+    /// 7:一元调用:取消挂单
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public override async Task<TradeCancelOrderRes> TradeCancelOrder(TradeCancelOrderReq request, ServerCallContext context)
+    {
+        Res<bool> response = FactoryTrade.instance.service_list.service_order.CancelOrder(request.Symbol, request.Uid, request.Type, JsonConvert.DeserializeObject<List<long>>(request.Orders)!);
+        TradeCancelOrderRes res = new TradeCancelOrderRes()
+        {
+            Json = JsonConvert.SerializeObject(response)
+        };
+        return await Task.FromResult(res);
+    }
+
 }
