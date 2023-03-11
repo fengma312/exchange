@@ -61,7 +61,10 @@ public class UserController : ControllerBase
     /// <param name="logger">日志接口</param>
     public UserController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
     {
-        this.db = db;
+        using (DbContextEF db = db_factory.CreateDbContext())
+        {
+            this.db = db;
+        }
         this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
         this.service_list = new ServiceList(service_base);
         common = new Common(service_base);
@@ -75,7 +78,7 @@ public class UserController : ControllerBase
     [Route("logout")]
     public Res<bool> Logout()
     {
-        return  this.service_list.service_user.Logout(this.login.no, this.login.user_id, this.login.app);
+        return this.service_list.service_user.Logout(this.login.no, this.login.user_id, this.login.app);
     }
 
     /// <summary>

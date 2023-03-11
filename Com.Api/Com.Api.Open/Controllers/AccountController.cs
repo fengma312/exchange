@@ -23,7 +23,7 @@ namespace Com.Api.Open.Controllers;
 public class AccountController : ControllerBase
 {
 
-     /// <summary>
+    /// <summary>
     /// Service:基础服务
     /// </summary>
     public readonly ServiceBase service_base;
@@ -31,11 +31,6 @@ public class AccountController : ControllerBase
     /// 
     /// </summary>
     public readonly ServiceList service_list;
-    /// <summary>
-    /// 数据库
-    /// </summary>
-    public DbContextEF db = null!;
-
 
     /// <summary>
     /// 公共类
@@ -53,7 +48,7 @@ public class AccountController : ControllerBase
     /// <param name="logger">日志接口</param>
     public AccountController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
     {
-        this.db = db;
+
         this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
         this.service_list = new ServiceList(service_base);
         common = new Common(service_base);
@@ -112,21 +107,24 @@ public class AccountController : ControllerBase
         code = "123456";
 #endif
         string content = $"Exchange 注册验证码:{code}";
-        if (db.Users.Any(P => P.email.ToLower() == email))
+        using (DbContextEF db = this.service_base.db_factory.CreateDbContext())
         {
-            res.code = E_Res_Code.email_repeat;
-            res.msg = "邮箱地址已存在";
-            return res;
-        }
-        else
-        {
-            if (common.SendEmail(email, content))
+            if (db.Users.Any(P => P.email.ToLower() == email))
             {
-                ServiceFactory.instance.redis.StringSet(this.service_list.service_key.GetRedisVerificationCode(email), code, TimeSpan.FromMinutes(10));
-
-                res.code = E_Res_Code.ok;
-                res.data = true;
+                res.code = E_Res_Code.email_repeat;
+                res.msg = "邮箱地址已存在";
                 return res;
+            }
+            else
+            {
+                if (common.SendEmail(email, content))
+                {
+                    ServiceFactory.instance.redis.StringSet(this.service_list.service_key.GetRedisVerificationCode(email), code, TimeSpan.FromMinutes(10));
+
+                    res.code = E_Res_Code.ok;
+                    res.data = true;
+                    return res;
+                }
             }
         }
         return res;

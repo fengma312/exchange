@@ -10,6 +10,7 @@ using Com.Bll;
 using Com.Bll.Models;
 using Microsoft.EntityFrameworkCore;
 using Com.Models.Db;
+using Com.Models.Enum;
 
 namespace Com.Api.Open;
 
@@ -47,10 +48,13 @@ public class MainService : BackgroundService
         this.service_base.logger.LogInformation("准备启动Api后台服务");
         try
         {
-            // FactoryService.instance.Init(this.constant);
+            ServiceFactory.instance.Init(this.service_base);
+            ServiceFactory.instance.InitRedis();
+            ServiceFactory.instance.InitSnowflake(E_ServiceType.openapi);
+            ServiceFactory.instance.InitMq();
+
             // ServiceMinio service_minio = new ServiceMinio(this.constant.config, this.constant.logger);
             // await service_minio.MakeBucket(FactoryService.instance.GetMinioRealname());
-
 
             this.service_base.logger.LogInformation("启动Api后台服务成功");
         }
