@@ -33,9 +33,9 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.ConfigureLogging((hostContext, logging) =>
 {
     logging.ClearProviders();
-#if (DEBUG)
+// #if (DEBUG)
     logging.AddConsole();
-#endif
+// #endif
     logging.AddNLog();
 });
 var app = builder.Build();
