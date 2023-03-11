@@ -39,10 +39,8 @@ public class DealController : ControllerBase
             return this.service_list.service_user.GetLoginUser(User);
         }
     }
-
-
-
-    //// <summary>
+    
+    /// <summary>
     /// 初始化
     /// </summary>
     /// <param name="provider">服务驱动</param>

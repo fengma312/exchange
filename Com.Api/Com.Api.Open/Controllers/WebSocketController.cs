@@ -98,10 +98,10 @@ public class WebSocketController : ControllerBase
     /// </summary>
     public WebSocketController(IServiceProvider provider, IDbContextFactory<DbContextEF> db_factory, IConfiguration configuration, IHostEnvironment environment, ILogger<MainService> logger)
     {
+        this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
+        this.service_list = new ServiceList(service_base);
         try
         {
-            this.service_base = new ServiceBase(provider, db_factory, configuration, environment, logger);
-            this.service_list = new ServiceList(service_base);
             this.mq_helper = new HelperMq(ServiceFactory.instance.connection_factory.CreateConnection());
         }
         catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)

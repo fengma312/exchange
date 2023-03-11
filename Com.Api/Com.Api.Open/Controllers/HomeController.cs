@@ -76,7 +76,7 @@ public class HomeController : ControllerBase
             website_icon = "https://freeware.iconfactory.com/assets/engb/preview.png",
             website_time = DateTimeOffset.UtcNow,
             time_zone = HttpContext.Session.GetInt32("time_zone") ?? 0,
-            website_serivcefile = this.service_base.configuration["minio:endpoint"],
+            website_serivcefile = this.service_base.configuration["minio:endpoint"]!,
         };
         return res;
     }

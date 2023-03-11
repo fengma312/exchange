@@ -64,7 +64,7 @@ public class VerificationFilters : Attribute, IAuthorizationFilter
         }
         else
         {
-            key = context.HttpContext.Request.Headers["api_key"];
+            key = context.HttpContext.Request.Headers["api_key"]!;
         }
         if (!context.HttpContext.Request.Headers.ContainsKey("api_sign"))
         {
@@ -75,7 +75,7 @@ public class VerificationFilters : Attribute, IAuthorizationFilter
         }
         else
         {
-            sign = context.HttpContext.Request.Headers["api_sign"];
+            sign = context.HttpContext.Request.Headers["api_sign"]!;
         }
         if (!context.HttpContext.Request.Headers.ContainsKey("api_timestamp"))
         {
@@ -86,7 +86,7 @@ public class VerificationFilters : Attribute, IAuthorizationFilter
         }
         else
         {
-            timestamp = context.HttpContext.Request.Headers["api_timestamp"];
+            timestamp = context.HttpContext.Request.Headers["api_timestamp"]!;
             long tempstamp_temp = 0;
             if (long.TryParse(timestamp, out tempstamp_temp))
             {
@@ -127,7 +127,7 @@ public class VerificationFilters : Attribute, IAuthorizationFilter
         }
         else
         {
-            userapi = JsonConvert.DeserializeObject<UsersApi>(rv);
+            userapi = JsonConvert.DeserializeObject<UsersApi>(rv!);
         }
         if (userapi == null)
         {

@@ -67,7 +67,7 @@ public class ApiOrderController : ControllerBase
     [HttpPost]
     public Res<List<BaseOrdered>> OrderPlace(string symbol, E_TradeModel trade_model, E_OrderType type, E_OrderSide side, decimal? price, decimal? amount, decimal? total, decimal? trigger_hanging_price, decimal? trigger_cancel_price, string? client_id)
     {
-        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
+        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]!);
         if (user_api.transaction == false || user_api.users == null)
         {
             Res<List<BaseOrdered>> result = new Res<List<BaseOrdered>>();
@@ -105,7 +105,7 @@ public class ApiOrderController : ControllerBase
     [HttpPost]
     public Res<List<BaseOrdered>> OrderPlaces(CallOrder data)
     {
-        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
+        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]!);
         if (user_api.transaction == false || user_api.users == null)
         {
             Res<List<BaseOrdered>> result = new Res<List<BaseOrdered>>();
@@ -127,7 +127,7 @@ public class ApiOrderController : ControllerBase
     [HttpPost]
     public Res<bool> OrderCancelByUserId(string symbol)
     {
-        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
+        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]!);
         if (user_api.transaction == false || user_api.users == null)
         {
             Res<bool> result = new Res<bool>();
@@ -149,7 +149,7 @@ public class ApiOrderController : ControllerBase
     [HttpPost]
     public Res<bool> OrderCancelByOrderid(KeyList<string, long> model)
     {
-        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
+        (bool transaction, Users? users, UsersApi? api) user_api = this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]!);
         if (user_api.transaction == false || user_api.users == null)
         {
             Res<bool> result = new Res<bool>();
@@ -172,7 +172,7 @@ public class ApiOrderController : ControllerBase
     // [Route("OrderCancelByClientId")]
     // public Res<bool> OrderCancelByClientId(CallOrderCancel model)
     // {
-    //     (bool transaction, Users? users, UsersApi? api) user_api =this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]);
+    //     (bool transaction, Users? users, UsersApi? api) user_api =this.service_list.service_user.ApiUserTransaction(Request.Headers["api_key"]!);
     //     if (user_api.transaction == false || user_api.users == null)
     //     {
     //         Res<bool> result = new Res<bool>();
@@ -198,7 +198,7 @@ public class ApiOrderController : ControllerBase
     [ResponseCache(CacheProfileName = "cache_0")]
     public Res<List<BaseOrdered>> GetOrderHanging(DateTimeOffset? start, DateTimeOffset? end, int skip = 0, int take = 50)
     {
-        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]);
+        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]!);
         return this.service_list.service_order.GetOrder(uid: api!.user_id, state: new List<E_OrderState>() { E_OrderState.unsold, E_OrderState.partial }, start: start, end: end, skip: skip, take: take);
     }
 
@@ -214,7 +214,7 @@ public class ApiOrderController : ControllerBase
     [ResponseCache(CacheProfileName = "cache_1")]
     public Res<List<BaseOrdered>> GetOrderHistory(DateTimeOffset? start, DateTimeOffset? end, int skip = 0, int take = 50)
     {
-        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]);
+        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]!);
         return this.service_list.service_order.GetOrder(uid: api!.user_id, state: new List<E_OrderState>() { E_OrderState.completed, E_OrderState.cancel }, start: start, end: end, skip: skip, take: take);
     }
 
@@ -228,7 +228,7 @@ public class ApiOrderController : ControllerBase
     // [ResponseCache(CacheProfileName = "cache_0")]
     // public Res<List<BaseOrdered>> GetOrderById(KeyList<string, long> model)
     // {
-    //     UsersApi? api = this.service_user.GetApi(Request.Headers["api_key"]);
+    //     UsersApi? api = this.service_user.GetApi(Request.Headers["api_key"]!);
     //     return this.service_order.GetOrder(symbol: model.key, uid: api!.user_id, ids: model.data);
     // }
 
@@ -246,7 +246,7 @@ public class ApiOrderController : ControllerBase
     [ResponseCache(CacheProfileName = "cache_0")]
     public Res<List<BaseOrdered>> GetOrderByState(string symbol, E_OrderState state, DateTimeOffset start, DateTimeOffset end, int skip = 0, int take = 50)
     {
-        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]);
+        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]!);
         return this.service_list.service_order.GetOrder(symbol: symbol, uid: api!.user_id, state: new List<E_OrderState>() { state }, start: start, end: end, skip: skip, take: take);
     }
 
@@ -263,7 +263,7 @@ public class ApiOrderController : ControllerBase
     [ResponseCache(CacheProfileName = "cache_2")]
     public Res<List<BaseOrdered>> GetOrderByDate(string symbol, DateTimeOffset start, DateTimeOffset end, int skip = 0, int take = 50)
     {
-        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]);
+        UsersApi? api = this.service_list.service_user.GetApi(Request.Headers["api_key"]!);
         return this.service_list.service_order.GetOrder(symbol: symbol, uid: api!.user_id, start: start, end: end, skip: skip, take: take);
     }
 

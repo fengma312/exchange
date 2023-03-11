@@ -183,7 +183,7 @@ public class UserController : ControllerBase
     {
         Res<string?> res = new Res<string?>();
         res.code = E_Res_Code.fail;
-        res.data = common.CreateGoogle2FA(this.service_base.configuration["Jwt:Issuer"], this.login.user_id);
+        res.data = common.CreateGoogle2FA(this.service_base.configuration["Jwt:Issuer"]!, this.login.user_id);
         if (string.IsNullOrWhiteSpace(res.data))
         {
             res.code = E_Res_Code.verification_disable;
@@ -245,7 +245,6 @@ public class UserController : ControllerBase
     /// <param name="files">实名凭证</param>
     /// <returns></returns>
     [HttpPost]
-    [Route("ApplyRealname")]
     public async Task<Res<bool>> ApplyRealname(IFormFile files)
     {
         Res<bool> res = new Res<bool>();
@@ -261,7 +260,7 @@ public class UserController : ControllerBase
         // ServiceMinio service_minio = new ServiceMinio(config, logger);
         // string object_name = ServiceFactory.instance.worker.NextId().ToString() + Path.GetExtension(files.FileName);
         // await service_minio.UploadFile(files.OpenReadStream(), FactoryService.instance.GetMinioRealname(), object_name, files.ContentType);
-        Users? users = db.Users.SingleOrDefault(P => P.user_id == this.login.user_id);
+        Users? users = await db.Users.SingleOrDefaultAsync(P => P.user_id == this.login.user_id);
         if (users == null || users.disabled == true || users.verify_realname == E_Verify.verify_ok)
         {
             res.code = E_Res_Code.apply_fail;

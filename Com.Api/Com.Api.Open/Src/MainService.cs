@@ -29,6 +29,7 @@ public class MainService : BackgroundService
     /// 初始化
     /// </summary>
     /// <param name="provider">驱动</param>
+    /// <param name="db_factory">db工厂</param>
     /// <param name="configuration">配置接口</param>
     /// <param name="environment">环境接口</param>
     /// <param name="logger">日志接口</param>

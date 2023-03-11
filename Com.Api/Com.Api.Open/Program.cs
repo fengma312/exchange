@@ -62,7 +62,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,//是否验证签名
         ValidIssuer = builder.Configuration["Jwt:Issuer"],//签发者，签发的Token的人
         ValidAudience = builder.Configuration["Jwt:Audience"],//接收者
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!)),
     };
     options.Events = new JwtBearerEvents()
     {
