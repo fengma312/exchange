@@ -13,7 +13,7 @@ public class GrpcClientAccount
     /// <summary>
     /// 服务端地址
     /// </summary>
-    public readonly string url = "";
+    public readonly string url;
     /// <summary>
     /// grpc管道
     /// </summary>
@@ -22,6 +22,7 @@ public class GrpcClientAccount
     /// grpc客户端对象
     /// </summary>
     public readonly AccountGrpc.AccountGrpcClient client;
+
     /// <summary>
     /// 初始化
     /// </summary>
