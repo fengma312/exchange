@@ -1,53 +1,173 @@
 # Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
 
 version: '3.4'
+
+networks:
+  exchange:
+    driver: bridge
+
 services:
 
-  comapiadmin:
+# 先执行 docker run --rm --entrypoint htpasswd httpd:2 -Bbn root mypassword > ~/docker/registry/auth/htpasswd
+  # 
+  
+  registry:
+    image: registry
+    container_name: registry
+    volumes:
+      - ~/docker/registry/registry:/var/lib/registry
+      - ~/docker/registry/auth:/auth
+    environment:
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM=Registry_Realm
+      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+    restart: always
+    networks: 
+      - exchange
+    expose:
+      - 5000
+
+  redis:
+    image: redis
+    restart: always
+    container_name: redis
+    networks: 
+      - exchange
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    volumes:
+      - ~/docker/redis/data:/data
+    environment:
+      - requirepass=mypassword
+    command: [ "redis-server", "--appendonly", "yes" ]
+
+  RabbitMQ:
+    image: rabbitmq:management
+    restart: always
+    container_name: mq
+    networks: 
+      - exchange
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=mquser
+      - RABBITMQ_DEFAULT_PASS=mypassword
+
+  pgsql:
+    image: postgres
+    restart: always
+    container_name: pgsql
+    networks: 
+      - exchange
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/docker/postgresql:/var/lib/postgresql/data
+    environment:      
+      - POSTGRES_PASSWORD=mypassword
+
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    networks: 
+      - exchange
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/docker/mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mypassword
+    command: [ "--auth" ]
+
+  comapiadmin1:
     container_name: com.api.admin
     image: fengma312/com.api.admin:latest
+    networks: 
+      - exchange
     build:
       context: .
       dockerfile: Com.Api/Com.Api.Admin/Dockerfile
+    expose:
+      - 80
 
-  comapiopen:
+  comapiopen1:
     container_name: com.api.open
     image: fengma312/com.api.open:latest
+    networks: 
+      - exchange
     build:
       context: .
       dockerfile: Com.Api/Com.Api.Open/Dockerfile
+    expose:
+      - 80
     depends_on:
-      - comapiadmin
+      - comapiadmin1
 
-  comserviceAccount:
+  comserviceAccount1:
     container_name: Com.Service.Account
     image: fengma312/com.service.account:latest
+    networks: 
+      - exchange
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Account/Dockerfile
+    expose:
+      - 80
     ports:
       - "8010:8010"
     depends_on:
-      - comapiadmin
+      - comapiadmin1
 
-  comserviceTrade:
+  comserviceTrade1:
     container_name: Com.Service.Trade
     image: fengma312/com.service.trade:latest
+    networks: 
+      - exchange
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Trade/Dockerfile
-    ports:
-      - "8030:8030"
+    expose:
+      - 80
+   
     depends_on:
-      - comapiadmin
+      - comapiadmin1
 
-  comserviceMatch:
+  comserviceMatch1:
     container_name: Com.Service.Match
     image: fengma312/com.service.match:latest
+    networks: 
+      - exchange
     build:
       context: .
       dockerfile: Com.Service/Com.Service.Match/Dockerfile
     ports:
       - "8020:8020"
     depends_on:
-      - comapiadmin
+      - comapiadmin1
+
+
+  envoy_front:
+    container_name: envoy_front
+    image: envoyproxy/envoy:v1.25-latest
+    restart: always
+    volumes:
+      - ./envoy/envoy_front.yaml:/etc/envoy/envoy.yaml
+    networks: 
+      - exchange
+    ports:
+      - "80:80"
+      - "443:443"
+      - "9901:9901"
+    depends_on:
+      - registry
+      - comapiopen1
+      # - envoy_test1
+      # - test2
+      # - test22
+      # - envoy_test2

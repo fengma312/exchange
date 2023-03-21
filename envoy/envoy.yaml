@@ -1,0 +1,150 @@
+static_resources:
+
+  listeners:
+  - name: listener_http
+    address:
+      socket_address: { address: 0.0.0.0, port_value: 80 }
+    filter_chains:
+    - filter_chain_match:
+      server_names: ["www.lijuanjuan.cloud","hub.lijuanjuan.cloud"]
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        config:
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            virtual_hosts:
+            - name: backend
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                redirect:
+                  path_redirect: "/"
+                  https_redirect: true
+          http_filters:
+          - name: envoy.router
+            config: {}
+
+
+
+
+  listeners:
+  - name: listener_https
+    address: 
+      socket_address:
+        protocol: TCP
+        address: 0.0.0.0
+        port_value: 443
+    listener_filters:
+    - name: tls_inspector
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector
+    filter_chains:
+    - filter_chain_match:
+      server_names: ["www.lijuanjuan.cloud","hub.lijuanjuan.cloud"]
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          route_config:
+            virtual_hosts:
+            - name: www
+              domains: ["www.lijuanjuan.cloud"]
+              routes:
+              - match: {prefix: "/"}
+                route:
+                  cluster: envoy_test2
+                  idle_timeout: 15s
+            - name: hub
+              domains: ["hub.lijuanjuan.cloud"]
+              routes:
+              - match: {prefix: "/"}
+                route:
+                  cluster: clusters_hub
+                  idle_timeout: 15s
+
+      transport_socket:
+        name: envoy.transport_sockets.tls
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+          common_tls_context:
+            tls_certificates:
+            - certificate_chain: {filename: "/etc/envoy/cert/lijuanjuan.cloud_bundle.pem"}
+              private_key: { filename: "/etc/envoy/cert/lijuanjuan.cloud.key"}
+            - certificate_chain: {filename: "/etc/envoy/cert/hub.lijuanjuan.cloud_bundle.pem"}
+              private_key: {filename: "/etc/envoy/cert/hub.lijuanjuan.cloud.key"}   
+            
+  clusters:
+  - name: some_service
+    type: STATIC
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: some_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: 127.0.0.1
+                port_value: 1234
+    transport_socket:
+      name: envoy.transport_sockets.tls
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+        common_tls_context:
+          tls_certificates:
+          - certificate_chain: {"filename": "certs/servercert.pem"}
+            private_key: {"filename": "certs/serverkey.pem"}
+            ocsp_staple: {"filename": "certs/server_ocsp_resp.der"}
+          validation_context:
+            match_typed_subject_alt_names:
+            - san_type: DNS
+              matcher:
+                exact: "foo"
+            trusted_ca:
+              filename: /etc/ssl/certs/ca-certificates.crt
+
+  - name: clusters_hub
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: registry
+        port_value: 5000
+
+  - name: openapi
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: comapiopen1
+        port_value: 80
+
+  - name: envoy_test2
+    connect_timeout: 2s
+    per_connection_buffer_limit_bytes: 32768 # 32 KiB
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    dns_lookup_family: V4_ONLY
+    load_assignment:
+      cluster_name: envoy_test2
+      endpoints:
+        - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: registry
+                    port_value: 5000
+
+
+admin:
+  access_log_path: /tmp/admin_access.log
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9901
