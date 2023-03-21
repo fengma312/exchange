@@ -5,64 +5,74 @@ services:
   # 先执行 docker run --rm --entrypoint htpasswd httpd:2 -Bbn root mypassword > ~/docker/registry/auth/htpasswd
   # docker run --rm -ti xmartlabs/htpasswd <username> <password> > htpasswd
  
-  registry:
-    image: registry
-    container_name: registry
+  htpasswd:
+    image: htpasswd
+    container_name: htpasswd
     volumes:
       - ~/docker/registry/registry:/var/lib/registry
-      - ~/docker/registry/auth:/auth
-    environment:
-      - REGISTRY_AUTH=htpasswd
-      - REGISTRY_AUTH_HTPASSWD_REALM=Registry_Realm
-      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
-      - REGISTRY_STORAGE_DELETE_ENABLED=true
-    restart: always
-    ports:
-      - 5000:5000   
+    command: ["httpd:2 -Bbn root mypassword > ~/docker/registry/auth/htpasswd"]
+   
+   
 
-  redis:
-    image: redis
-    restart: always
-    container_name: redis
-    ports:
-      - 6379:6379
-    volumes:
-      - ~/docker/redis/data:/data
-    environment:
-      - requirepass=mypassword
-    command: [ "redis-server", "--appendonly", "yes" ]
 
-  RabbitMQ:
-    image: rabbitmq:management
-    restart: always
-    container_name: mq
-    ports:
-      - 15672:15672
-      - 5672:5672
-    environment:
-      - RABBITMQ_DEFAULT_USER=mquser
-      - RABBITMQ_DEFAULT_PASS=mypassword
+  # registry:
+  #   image: registry
+  #   container_name: registry
+  #   volumes:
+  #     - ~/docker/registry/registry:/var/lib/registry
+  #     - ~/docker/registry/auth:/auth
+  #   environment:
+  #     - REGISTRY_AUTH=htpasswd
+  #     - REGISTRY_AUTH_HTPASSWD_REALM=Registry_Realm
+  #     - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+  #     - REGISTRY_STORAGE_DELETE_ENABLED=true
+  #   restart: always
+  #   ports:
+  #     - 5000:5000   
 
-  pgsql:
-    image: postgres
-    restart: always
-    container_name: pgsql
-    ports:
-      - 5432:5432
-    volumes:
-      - ~/docker/postgresql:/var/lib/postgresql/data
-    environment:      
-      - POSTGRES_PASSWORD=mypassword
+  # redis:
+  #   image: redis
+  #   restart: always
+  #   container_name: redis
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - ~/docker/redis/data:/data
+  #   environment:
+  #     - requirepass=mypassword
+  #   command: [ "redis-server", "--appendonly", "yes" ]
 
-  mongo:
-    image: mongo
-    restart: always
-    container_name: mongo
-    ports:
-      - 27017:27017
-    volumes:
-      - ~/docker/mongo:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: mypassword
-    command: [ "--auth" ]
+  # RabbitMQ:
+  #   image: rabbitmq:management
+  #   restart: always
+  #   container_name: mq
+  #   ports:
+  #     - 15672:15672
+  #     - 5672:5672
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=mquser
+  #     - RABBITMQ_DEFAULT_PASS=mypassword
+
+  # pgsql:
+  #   image: postgres
+  #   restart: always
+  #   container_name: pgsql
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - ~/docker/postgresql:/var/lib/postgresql/data
+  #   environment:      
+  #     - POSTGRES_PASSWORD=mypassword
+
+  # mongo:
+  #   image: mongo
+  #   restart: always
+  #   container_name: mongo
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - ~/docker/mongo:/data/db
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: mypassword
+  #   command: [ "--auth" ]
